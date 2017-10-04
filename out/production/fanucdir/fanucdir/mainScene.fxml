@@ -1,14 +1,8 @@
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.GridPane?>
-
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
-
-
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.text.Text?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TableColumn?>
 
@@ -19,23 +13,16 @@
     <padding><Insets top="25" right="25" bottom="25" left="25"/></padding>
     <top>
         <HBox spacing="10">
-            <TextField prefWidth="200"></TextField>
-            <Button>cerca</Button>
+            <TextField prefWidth="200" fx:id="textToSearch" onAction="#searchProgram"></TextField>
+            <Button onAction="#searchProgram">cerca</Button>
         </HBox>
     </top>
     <left>
-        <TableView>
+        <TableView fx:id="programTable">
             <columns>
-                <TableColumn fx:id="programName" text="Nome">
-                    <cellValueFactory>
-                        <!--<PropertyValueFactory property="firstName" />-->
-                    </cellValueFactory>
-                    <cellFactory>
-                        <!--<FormattedTableCellFactory alignment="center">-->
-                        <!--</FormattedTableCellFactory>-->
-                    </cellFactory>
+                <TableColumn fx:id="programNameColumn" text="Programma">
                 </TableColumn>
-                <TableColumn fx:id="fileName" text="File">
+                <TableColumn fx:id="fileNameColumn" text="File">
                 </TableColumn>
             </columns>
         </TableView>

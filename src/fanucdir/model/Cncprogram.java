@@ -1,26 +1,23 @@
 package fanucdir.model;
 
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.StringProperty;
 
 public class Cncprogram {
 
-    private StringProperty name;
-    private IntegerProperty number;
+    public StringProperty fileName;
+    private StringProperty programName;
 
-    public Cncprogram(int number, String name){
-        this.name = new SimpleStringProperty(name);
-        this.number = new SimpleIntegerProperty(number);
+    public Cncprogram(String fileName, String programName){
+        this.fileName = new SimpleStringProperty(fileName);
+        this.programName = new SimpleStringProperty(programName);
     }
 
-    public String getName(){
-        return this.name.get();
+    public String getFileName(){
+        return this.fileName.get();
     }
 
-    public int getNumber(){
-        return this.number.get();
+    public String getProgramName(){
+        return this.programName.get();
     }
-
 }

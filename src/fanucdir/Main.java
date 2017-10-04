@@ -1,9 +1,5 @@
 package fanucdir;
-
-import fanucdir.model.Cncprogram;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -11,18 +7,15 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    private ObservableList<Cncprogram> cncPrograms = FXCollections.observableArrayList();
+
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        System.out.print("in start");
         Parent root = FXMLLoader.load(getClass().getResource("mainScene.fxml"));
         primaryStage.setTitle("FanucDir - cerca programma");
-        primaryStage.setScene(new Scene(root, 800, 600));
+        primaryStage.setScene(new Scene(root, 1000, 800));
         primaryStage.show();
-
-
-        cncPrograms.add(new Cncprogram(1,"came"));
-
     }
 
 
