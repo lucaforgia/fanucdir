@@ -7,15 +7,26 @@
 <?import javafx.scene.control.TableColumn?>
 
 
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 <BorderPane fx:controller="fanucdir.MainSceneController"
             xmlns:fx="http://javafx.com/fxml" >
 
     <padding><Insets top="25" right="25" bottom="25" left="25"/></padding>
     <top>
-        <HBox spacing="10">
-            <TextField prefWidth="200" fx:id="textToSearch" onAction="#searchProgram"></TextField>
-            <Button onAction="#searchProgram">cerca</Button>
-        </HBox>
+        <VBox>
+            <HBox spacing="10">
+                <Button onAction="#chooseDirectory">Cartella</Button>
+                <Text fx:id="currentFolder"></Text>
+            </HBox>
+            <HBox spacing="10">
+
+                <TextField prefWidth="200" fx:id="textToSearch" onAction="#searchProgram"></TextField>
+                <Button onAction="#searchProgram">cerca</Button>
+            </HBox>
+
+        </VBox>
     </top>
     <left>
         <TableView fx:id="programTable">
@@ -27,5 +38,26 @@
             </columns>
         </TableView>
     </left>
+    <center>
+        <VBox>
+            <HBox>
+                <Text fx:id="currentProgram"></Text>
+                <Button fx:id="editButton" onAction="#openFile">Edit</Button>
+            </HBox>
+            <TextArea VBox.vgrow="ALWAYS" fx:id="programText" ></TextArea>
+        </VBox>
+
+    </center>
+    <right>
+        <TableView fx:id="infoTable">
+            <columns>
+                <TableColumn fx:id="utNumber" text="Utensile">
+                </TableColumn>
+                <TableColumn fx:id="utDescription" text="Descrizione">
+                </TableColumn>
+            </columns>
+        </TableView>
+    </right>
+
 
 </BorderPane>
