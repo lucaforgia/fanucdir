@@ -24,3 +24,4 @@ hs_err_pid*
 # The folder with files to test the stuff
 test_folder
 cnc_programs
+out

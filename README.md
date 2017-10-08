@@ -12,6 +12,8 @@
 - change name
 - load/copy to usb
 - create config file and read it at start
+- css style
+- get free program name
 
 ###info
 -java fx program

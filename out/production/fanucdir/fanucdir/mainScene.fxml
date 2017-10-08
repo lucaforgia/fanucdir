@@ -11,13 +11,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 <BorderPane fx:controller="fanucdir.MainSceneController"
-            xmlns:fx="http://javafx.com/fxml" >
+            xmlns:fx="http://javafx.com/fxml" fx:id="mainPanel" styleClass="wrapping10">
 
-    <padding><Insets top="25" right="25" bottom="25" left="25"/></padding>
+    <!--<padding><Insets top="25" right="25" bottom="25" left="25"/></padding>-->
     <top>
-        <VBox>
+        <VBox fx:id="searchBox" spacing="10">
             <HBox spacing="10">
-                <Button onAction="#chooseDirectory">Cartella</Button>
+                <Button onAction="#chooseDirectory" fx:id="getFolderButton">Cartella</Button>
                 <Text fx:id="currentFolder"></Text>
             </HBox>
             <HBox spacing="10">
@@ -29,18 +29,18 @@
         </VBox>
     </top>
     <left>
-        <TableView fx:id="programTable">
+        <TableView fx:id="programTable" prefWidth="300">
             <columns>
-                <TableColumn fx:id="programNameColumn" text="Programma">
+                <TableColumn prefWidth="200" resizable="false" fx:id="programNameColumn" text="Programma">
                 </TableColumn>
-                <TableColumn fx:id="fileNameColumn" text="File">
+                <TableColumn prefWidth="99" fx:id="fileNameColumn" text="File">
                 </TableColumn>
             </columns>
         </TableView>
     </left>
     <center>
-        <VBox>
-            <HBox>
+        <VBox maxWidth="500">
+            <HBox spacing="20" fx:id="center_header">
                 <Text fx:id="currentProgram"></Text>
                 <Button fx:id="editButton" onAction="#openFile">Edit</Button>
             </HBox>

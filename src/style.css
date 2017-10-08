@@ -1,0 +1,23 @@
+.wrapping10{
+    -fx-padding:10;
+}
+
+.padding_left10{
+    -fx-padding:0 0 0 10;
+}
+
+#center_header {
+    -fx-padding: 0 10 10 10;
+}
+
+#searchBox{
+    -fx-padding:10 0 10 0;
+}
+
+#getFolderButton{
+    -fx-margin:0 0 10 0;
+}
+
+#programNameColumn{
+    -fx-width:10;
+}

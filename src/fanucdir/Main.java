@@ -1,4 +1,5 @@
 package fanucdir;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,7 +16,8 @@ public class Main extends Application {
 //        FXMLLoader loader = FXMLLoader.load(getClass().getResource("mainScene.fxml"));
 //        Parent root = FXMLLoader.load(getClass().getResource("mainScene.fxml"));
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScene.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("mainScene.fxml"));
+
         Parent root = (Parent)loader.load();
         MainSceneController controller = (MainSceneController)loader.getController();
         controller.setMainStage(primaryStage);
@@ -24,6 +26,7 @@ public class Main extends Application {
 //        MainSceneController mainController = (MainSceneController)loader.getController();
         primaryStage.setTitle("FanucDir - cerca programma");
         primaryStage.setScene(new Scene(root, 1000, 800));
+        primaryStage.getScene().getStylesheets().add("style.css");
         primaryStage.show();
 //        mainController.ratto();
     }

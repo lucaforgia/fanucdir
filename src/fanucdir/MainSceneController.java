@@ -15,6 +15,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -59,6 +60,9 @@ public class MainSceneController implements Initializable{
     @FXML
     private  Text currentProgram;
 
+    @FXML
+    private BorderPane mainPanel;
+
     @Override
     public void initialize(URL location, ResourceBundle resources){
         System.out.print("in inzialize");
@@ -85,8 +89,12 @@ public class MainSceneController implements Initializable{
         });
 
         programsFolderSelected = System.getProperty("user.dir") + "\\cnc_programs";
+        currentFolder.setText(programsFolderSelected);
         getAllPrograms();
         showAllPrograms();
+
+//        programTable.setMinWidth(500);
+
     }
 
     private void selectProgram(String fileName, String programName){
@@ -123,11 +131,7 @@ public class MainSceneController implements Initializable{
     private void getAllPrograms(){
 
         String pathName = programsFolderSelected;
-//        if(programsFolderSelected != ""){
-//            pathName = ;
-//        }else{
-//            pathName = System.getProperty("user.dir") + "\\cnc_programs";
-//        }
+
 
         allCncPrograms = new ArrayList<Cncprogram>();
         System.out.print("\n");
