@@ -1,15 +1,11 @@
 package fanucdir;
 
-import fanucdir.model.Cncprogram;
+import fanucdir.model.CncProgram;
 import javafx.application.Application;
-import javafx.application.HostServices;
-import javafx.beans.property.StringProperty;
-import javafx.beans.value.ObservableStringValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -25,13 +21,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class MainSceneController implements Initializable{
 
-    private ObservableList<Cncprogram> cncPrograms = FXCollections.observableArrayList();
-    private ArrayList<Cncprogram> allCncPrograms;
+    private ObservableList<CncProgram> cncProgramObservableList = FXCollections.observableArrayList();
+    private CncProgramsManager cncProgramsManager = new CncProgramsManager();
     private Stage mainStage;
 
     private Application app;
@@ -40,13 +35,13 @@ public class MainSceneController implements Initializable{
 
 
     @FXML
-    private TableView<Cncprogram> programTable;
+    private TableView<CncProgram> programTable;
 
     @FXML
-    private TableColumn<Cncprogram, String> programNameColumn;
+    private TableColumn<CncProgram, String> programNameColumn;
 
     @FXML
-    private TableColumn<Cncprogram, String> fileNameColumn;
+    private TableColumn<CncProgram, String> fileNameColumn;
 
     @FXML
     private TextField textToSearch;
@@ -67,19 +62,19 @@ public class MainSceneController implements Initializable{
     public void initialize(URL location, ResourceBundle resources){
         System.out.print("in inzialize");
 
-        programNameColumn.setCellValueFactory(new PropertyValueFactory<Cncprogram, String>("programName"));
+        programNameColumn.setCellValueFactory(new PropertyValueFactory<CncProgram, String>("programName"));
 
-        fileNameColumn.setCellValueFactory(new PropertyValueFactory<Cncprogram, String>("fileName"));
+        fileNameColumn.setCellValueFactory(new PropertyValueFactory<CncProgram, String>("fileName"));
 
 //        programTable.getItems().setAll(parseUserList());
 
         programTable.getColumns().setAll(programNameColumn, fileNameColumn);
         programText.setEditable(false);
 
-        programTable.setItems(cncPrograms);
+        programTable.setItems(cncProgramObservableList);
 
-//        cncPrograms.add(new Cncprogram("o9999", "Fast merda bla bla bla"));
-//        cncPrograms.add(new Cncprogram("oskkdjd", "Fast puzza"));
+//        cncProgramObservableList.add(new CncprogramOld("o9999", "Fast merda bla bla bla"));
+//        cncProgramObservableList.add(new CncprogramOld("oskkdjd", "Fast puzza"));
 
 
         programTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
@@ -88,10 +83,12 @@ public class MainSceneController implements Initializable{
             }
         });
 
-        programsFolderSelected = System.getProperty("user.dir") + "\\cnc_programs";
+        System.out.println("cascacacsacsa");
+
+
+        programsFolderSelected = cncProgramsManager.setFolderPath();
         currentFolder.setText(programsFolderSelected);
-        getAllPrograms();
-        showAllPrograms();
+        showPrograms();
 
 //        programTable.setMinWidth(500);
 
@@ -99,8 +96,10 @@ public class MainSceneController implements Initializable{
 
     private void selectProgram(String fileName, String programName){
         programText.setScrollTop(0);
-        filePathSelected = programsFolderSelected + "\\" + fileName;
-        File fileSelected = new File(filePathSelected);
+        File fileSelected = cncProgramsManager.getProgram(fileName);
+        filePathSelected = fileSelected.getPath();
+
+
         try(BufferedReader br = new BufferedReader(new FileReader(fileSelected))) {
             programText.clear();
             for(String line; (line = br.readLine()) != null; ) {
@@ -123,52 +122,19 @@ public class MainSceneController implements Initializable{
         app.getHostServices().showDocument(filePathSelected);
     }
 
-    private void showAllPrograms(){
-        cncPrograms.removeAll(cncPrograms);
-        allCncPrograms.forEach(program -> cncPrograms.add(program));
+    private void showPrograms(){
+        cncProgramObservableList.removeAll(cncProgramObservableList);
+        cncProgramsManager.getCncProgramList().forEach(program -> cncProgramObservableList.add(program));
     }
 
-    private void getAllPrograms(){
-
-        String pathName = programsFolderSelected;
-
-
-        allCncPrograms = new ArrayList<Cncprogram>();
-        System.out.print("\n");
-        System.out.print(pathName);
-        File folder = new File(pathName);
-        int counter = 0;
-        String fileName;
-        String programName;
-        for (final File fileEntry : folder.listFiles()) {
-            counter = 0;
-            try(BufferedReader br = new BufferedReader(new FileReader(fileEntry))) {
-                fileName = fileEntry.getName();
-                if(fileName.startsWith("O")){
-                    for(String line; (line = br.readLine()) != null; ) {
-                        if(counter == 1){
-
-                            programName = line.replace(fileName, "").replace("(", "").replace(")", "");
-                            allCncPrograms.add(new Cncprogram(fileName, programName));
-                            break;
-                        }
-                        counter++;
-                    }
-                }
-            }catch (IOException ex){
-                System.out.print("cazzo");
-            }
-
-        }
-
-
-    }
 
     public void searchProgram(){
 
         String text = textToSearch.getText().toLowerCase();
-        cncPrograms.removeAll(cncPrograms);
-        allCncPrograms.forEach(program -> {if(program.getProgramName().toLowerCase().contains(text)){ cncPrograms.add(program); }});
+
+        cncProgramObservableList.removeAll(cncProgramObservableList);
+
+        cncProgramsManager.filterPrograms(text).forEach(program -> cncProgramObservableList.add(program));
 
     }
 
@@ -183,8 +149,9 @@ public class MainSceneController implements Initializable{
         String newPath = selectedDirectory.getPath();
         currentFolder.setText(newPath);
         programsFolderSelected = newPath;
-        getAllPrograms();
-        showAllPrograms();
+        cncProgramsManager.setFolderPath(newPath);
+//        getAllPrograms();
+        showPrograms();
     }
 
     public void setMainStage(Stage mainStage){
