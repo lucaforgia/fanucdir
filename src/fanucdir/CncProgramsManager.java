@@ -59,6 +59,10 @@ public class CncProgramsManager {
         return this.folderPath;
     }
 
+    public void reloadCncProgramList(){
+        setFolderPath(folderPath);
+    }
+
     private void setAllPrograms(){
 
         File folder = new File(this.folderPath);
@@ -86,8 +90,78 @@ public class CncProgramsManager {
             }
 
         }
-
-
     }
 
+    private int convertFromFileNameToInt(String fileName){
+        String parsedString = fileName.replace("O", "");
+        return Integer.parseInt(parsedString);
+    }
+
+    private String convertFromFileNumberToFileName(int fileNumber){
+        if(fileNumber < 10){
+            return "O000" + fileNumber;
+        }
+        if(fileNumber <100){
+            return "O00" + fileNumber;
+        }
+        if(fileNumber < 1000){
+            return "O0" + fileNumber;
+        }
+        else{
+            return "O" + fileNumber;
+        }
+    }
+
+    private int getNextFreeProgramNumber(){
+        int size = cncProgramList.size();
+        int currentProgramNumber = 0;
+        int nextProgramNumber = 0;
+
+        for(int i = 0; i < size; i++){
+            CncProgram current = cncProgramList.get(i);
+            currentProgramNumber = convertFromFileNameToInt(cncProgramList.get(i).getFileName());
+
+            if(i == size){
+                nextProgramNumber = currentProgramNumber + 1;
+                break;
+            }else{
+                if(convertFromFileNameToInt(cncProgramList.get(i + 1).getFileName()) - currentProgramNumber > 1){
+                    nextProgramNumber = currentProgramNumber + 1;
+                    break;
+                }
+            }
+        }
+        return nextProgramNumber;
+    }
+
+    private int getNextTwoFreeProgramNumbers(){
+        int size = cncProgramList.size();
+        int currentProgramNumber = 0;
+        int nextProgramNumber = 0;
+
+        for(int i = 0; i < size; i++){
+            CncProgram current = cncProgramList.get(i);
+            currentProgramNumber = convertFromFileNameToInt(cncProgramList.get(i).getFileName());
+
+            if(i == size){
+                nextProgramNumber = currentProgramNumber + 1;
+                break;
+            }else{
+                if(convertFromFileNameToInt(cncProgramList.get(i + 1).getFileName()) - currentProgramNumber > 2){
+                    nextProgramNumber = currentProgramNumber + 1;
+                    break;
+                }
+            }
+        }
+        return nextProgramNumber;
+    }
+
+
+    public String getNextTwoFreeProgramNames(){
+        return convertFromFileNumberToFileName(getNextTwoFreeProgramNumbers());
+    }
+
+    public String getNextFreeProgramName(){
+        return convertFromFileNumberToFileName(getNextFreeProgramNumber());
+    }
 }

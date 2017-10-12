@@ -21,3 +21,21 @@
 #programNameColumn{
     -fx-width:10;
 }
+
+#bottom{
+    -fx-padding:10 0 0 0;
+}
+
+.dialogBox{
+    -fx-padding:40 0 0 0;
+}
+
+.textCenter{
+
+    -fx-font-size:25;
+    -fx-font-weight:bold;
+}
+
+.dialogAskBox{
+    -fx-padding:40 0 0 0;
+}

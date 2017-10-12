@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -26,12 +27,13 @@ import java.util.ResourceBundle;
 public class MainSceneController implements Initializable{
 
     private ObservableList<CncProgram> cncProgramObservableList = FXCollections.observableArrayList();
-    private CncProgramsManager cncProgramsManager = new CncProgramsManager();
+    private final CncProgramsManager cncProgramsManager = new CncProgramsManager();
     private Stage mainStage;
 
-    private Application app;
+    private Main app;
     private String filePathSelected;
     private String programsFolderSelected;
+    private File fileSelected;
 
 
     @FXML
@@ -57,6 +59,9 @@ public class MainSceneController implements Initializable{
 
     @FXML
     private BorderPane mainPanel;
+
+    @FXML
+    private Button deleteButton;
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
@@ -85,7 +90,7 @@ public class MainSceneController implements Initializable{
 
         System.out.println("cascacacsacsa");
 
-
+        deleteButton.setVisible(false);
         programsFolderSelected = cncProgramsManager.setFolderPath();
         currentFolder.setText(programsFolderSelected);
         showPrograms();
@@ -94,9 +99,14 @@ public class MainSceneController implements Initializable{
 
     }
 
+    private void clearProgramText(){
+        programText.clear();
+    }
+
     private void selectProgram(String fileName, String programName){
         programText.setScrollTop(0);
         File fileSelected = cncProgramsManager.getProgram(fileName);
+        this.fileSelected = fileSelected;
         filePathSelected = fileSelected.getPath();
 
 
@@ -107,19 +117,15 @@ public class MainSceneController implements Initializable{
             }
             programText.positionCaret(0);
             currentProgram.setText(fileName + " / " + programName);
-
+            deleteButton.setVisible(true);
 
         }catch (IOException ex){
 
         }
     }
 
-    public void setApp(Application app){
+    public void setApp(Main app){
         this.app = app;
-    }
-
-    public void openFile(){
-        app.getHostServices().showDocument(filePathSelected);
     }
 
     private void showPrograms(){
@@ -127,9 +133,21 @@ public class MainSceneController implements Initializable{
         cncProgramsManager.getCncProgramList().forEach(program -> cncProgramObservableList.add(program));
     }
 
+    public void askIfDelete() throws Exception{
+//        app.cacca();
+        app.showRemoveDialog();
+//        this.fileSelected.delete();
+    }
+
+    public void deleteFileSelected(){
+        this.fileSelected.delete();
+        this.reloadFolder();
+        this.clearProgramText();
+        this.currentProgram.setText("");
+        deleteButton.setVisible(false);
+    }
 
     public void searchProgram(){
-
         String text = textToSearch.getText().toLowerCase();
 
         cncProgramObservableList.removeAll(cncProgramObservableList);
@@ -152,6 +170,22 @@ public class MainSceneController implements Initializable{
         cncProgramsManager.setFolderPath(newPath);
 //        getAllPrograms();
         showPrograms();
+    }
+
+    public void reloadFolder(){
+        cncProgramsManager.reloadCncProgramList();
+        showPrograms();
+    }
+
+    public void getNextFreeProgramName(){
+        String nextFreeProgramName = cncProgramsManager.getNextFreeProgramName();
+        System.out.println(nextFreeProgramName);
+
+    }
+
+    public void getNextTwoFreeProgramNames(){
+        String nextFreeProgramName = cncProgramsManager.getNextTwoFreeProgramNames();
+        System.out.println(nextFreeProgramName);
     }
 
     public void setMainStage(Stage mainStage){
