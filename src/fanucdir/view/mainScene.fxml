@@ -10,7 +10,7 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
-<BorderPane fx:controller="fanucdir.MainSceneController"
+<BorderPane fx:controller="fanucdir.controller.MainSceneController"
             xmlns:fx="http://javafx.com/fxml" fx:id="mainPanel" styleClass="wrapping10">
 
     <!--<padding><Insets top="25" right="25" bottom="25" left="25"/></padding>-->

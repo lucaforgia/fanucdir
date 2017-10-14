@@ -1,5 +1,7 @@
-package fanucdir;
+package fanucdir.controller;
 
+import fanucdir.CncProgramsManager;
+import fanucdir.Main;
 import fanucdir.model.CncProgram;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -63,6 +65,7 @@ public class MainSceneController implements Initializable{
     @FXML
     private Button deleteButton;
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources){
         System.out.print("in inzialize");
@@ -122,6 +125,10 @@ public class MainSceneController implements Initializable{
         }catch (IOException ex){
 
         }
+    }
+
+    public String getFileSelectedName(){
+        return this.fileSelected.getName();
     }
 
     public void setApp(Main app){

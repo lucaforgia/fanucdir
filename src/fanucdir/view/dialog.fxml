@@ -1,28 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import javafx.scene.text.Text?>
-<?import javafx.scene.shape.Box?>
+
+
+
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="fanucdir.DialogSceneController"
-            >
+            fx:controller="fanucdir.controller.DialogController"
+>
 
     <VBox prefWidth="300" alignment="BOTTOM_CENTER" spacing="20">
 
         <BorderPane styleClass="dialogAskBox">
             <center>
-                <Text styleClass="textCenter">Sei sicuro?</Text>
+                <Text wrappingWidth="250" styleClass="textCenter" fx:id="confirmQuestion"></Text>
             </center>
         </BorderPane>
         <HBox styleClass="dialogBox" prefWidth="200" alignment="CENTER" spacing="50">
-            <Button onAction="#cancelDeleteAction">No</Button>
-            <Button onAction="#confirmDeleteAction">Si, cancella!</Button>
+            <Button onAction="#cancelCallBack">No</Button>
+            <Button onAction="#okCallBack">Si, cancella!</Button>
         </HBox>
     </VBox>
 </AnchorPane>

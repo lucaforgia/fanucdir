@@ -1,21 +1,20 @@
 package fanucdir;
 
+import fanucdir.controller.MainSceneController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import java.awt.*;
 
 public class Main extends Application {
 
 
     private Stage primaryStage;
     private MainSceneController mainController;
-    private DialogSceneController removeDialogController;
-    private Stage cancelDialogStage;
+    private Dialog confirmDialog;
+//    private RemoveDialogController removeDialogController;
+//    private Stage cancelDialogStage;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -24,7 +23,7 @@ public class Main extends Application {
 //        Parent root = FXMLLoader.load(getClass().getResource("mainScene.fxml"));
 
         this.primaryStage = primaryStage;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("mainScene.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("view/mainScene.fxml"));
 
         Parent root = (Parent)loader.load();
         this.mainController = (MainSceneController)loader.getController();
@@ -38,6 +37,32 @@ public class Main extends Application {
         primaryStage.getScene().getStylesheets().add("style.css");
         primaryStage.show();
 
+//        FXMLLoader removeDialogLoader = new FXMLLoader(getClass().getResource("view/removeDialogScene.fxml"));
+//        Parent removeDialogParent = (Parent)removeDialogLoader.load();
+
+
+//        this.removeDialogController = (RemoveDialogController)removeDialogLoader.getController();
+//        this.removeDialogController.setApp(this);
+//        this.cancelDialogStage = new Stage();
+//
+//        this.cancelDialogStage.initModality(Modality.APPLICATION_MODAL);
+//        this.cancelDialogStage.initOwner(primaryStage);
+//        Scene dialogScene = new Scene(removeDialogParent, 300, 200);
+//        this.cancelDialogStage.setTitle("Confermare");
+//        dialogScene.getStylesheets().add("style.css");
+//        this.cancelDialogStage.setScene(dialogScene);
+
+
+//        Dialog nuovo = new Dialog(primaryStage, "Canenero"){
+//            @Override
+//            public void okCallBack() {
+//                System.out.println("riscritto");
+//            }
+//        };
+//        nuovo.showDialog();
+//        nuovo.setConfirmQuestion("Sei ipersicuro");
+
+
 //        showDialog();
 
 //        mainController.ratto();
@@ -46,32 +71,25 @@ public class Main extends Application {
 
     public void deleteFile(){
         this.mainController.deleteFileSelected();
-        this.cancelDialogStage.hide();
-    }
-
-    public void cancelDeleteAction(){
-        this.cancelDialogStage.hide();
+//        this.cancelDialogStage.hide();
     }
 
     public void showRemoveDialog() throws Exception{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("dialogScene.fxml"));
-        Parent root = (Parent)loader.load();
+//        this.cancelDialogStage.show();
 
+        Main app = this;
+        String selectedFileName = this.mainController.getFileSelectedName();
+        String question = "Sei sicuro di voler cancellare il file " + selectedFileName + "?";
+        this.confirmDialog = new Dialog(this.primaryStage, question){
 
-        this.removeDialogController = (DialogSceneController)loader.getController();
-//        controller.setMainStage(primaryStage);
-        this.removeDialogController.setApp(this);
+            @Override
+            public void okCallBack() {
+                app.deleteFile();
+                this.hide();
+            }
+        };
 
-
-        this.cancelDialogStage = new Stage(); // new stage
-
-        this.cancelDialogStage.initModality(Modality.APPLICATION_MODAL);
-        this.cancelDialogStage.initOwner(primaryStage);
-        Scene dialogScene = new Scene(root, 300, 200);
-        this.cancelDialogStage.setTitle("Confermare");
-        dialogScene.getStylesheets().add("style.css");
-        this.cancelDialogStage.setScene(dialogScene);
-        this.cancelDialogStage.show();
+        this.confirmDialog.show();
     }
 
     public static void main(String[] args) {
