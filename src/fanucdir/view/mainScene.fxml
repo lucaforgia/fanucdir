@@ -18,11 +18,12 @@
         <VBox fx:id="searchBox" spacing="10">
             <HBox spacing="10">
                 <Button onAction="#reloadFolder">Ricarica</Button>
+                <Button onAction="#showArchive">Mostra Archivio</Button>
                 <Button onAction="#chooseDirectory" fx:id="getFolderButton">Apri Cartella</Button>
                 <Text fx:id="currentFolder"></Text>
             </HBox>
             <HBox spacing="10">
-
+                <Button onAction="#resetFilter">*</Button>
                 <TextField prefWidth="200" fx:id="textToSearch" onAction="#searchProgram"></TextField>
                 <Button onAction="#searchProgram">cerca</Button>
             </HBox>
@@ -40,10 +41,12 @@
         </TableView>
     </left>
     <center>
-        <VBox maxWidth="500">
+        <VBox fx:id="centerPanel" >
             <HBox spacing="20" fx:id="center_header">
                 <Text fx:id="currentProgram"></Text>
                 <Button fx:id="deleteButton" onAction="#askIfDelete">Rimuovi File</Button>
+                <Button fx:id="copyButton" onAction="#copyProgram">Copia</Button>
+                <Button fx:id="archiveButton" onAction="#archiveProgram">Archivia</Button>
             </HBox>
             <TextArea VBox.vgrow="ALWAYS" fx:id="programText" ></TextArea>
         </VBox>
@@ -62,8 +65,8 @@
 
     <bottom>
         <HBox spacing="10" fx:id="bottom">
-            <Button onAction="#getNextFreeProgramName">Get next free Program name</Button>
-            <Button onAction="#getNextTwoFreeProgramNames">Get next 2 free Program names</Button>
+            <!--<Button onAction="#getNextFreeProgramName">Get next free Program name</Button>-->
+            <Text>https://github.com/lucaforgia/fanucdir</Text>
         </HBox>
     </bottom>
 

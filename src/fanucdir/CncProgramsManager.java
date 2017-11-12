@@ -2,21 +2,25 @@ package fanucdir;
 
 import fanucdir.model.CncProgram;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class CncProgramsManager {
 
     private ArrayList<CncProgram> cncProgramList = new ArrayList<>();
     private String folderPath;
+    public final static String ARCHIVE_PATH = Paths.get(System.getProperty("user.dir"),"cnc_programs").toString();
+    private final static int MAX_PROGRAMS_NUMBER = 8999;
+    private final static int MIN_PROGRAMS_NUMBER = 101;
 
-    public void CncProgramList(){
-
-    }
+    public static final List<Integer> PROGRAM_NUMBERS_NOT_AVAILABLE = Collections.unmodifiableList(Arrays.asList(0,1,54));
 
     public ArrayList<CncProgram> getCncProgramList() {
         return cncProgramList;
@@ -31,7 +35,7 @@ public class CncProgramsManager {
 
         for(int i = 0; i < size; i++){
             CncProgram temp = cncProgramList.get(i);
-            if(temp.getFileName() == fileName){
+            if(temp.getFileName().equals(fileName)){
                 fileToReturn = temp.getProgramFile();
                 break;
             }
@@ -54,7 +58,7 @@ public class CncProgramsManager {
     }
 
     public String setFolderPath(){
-        this.folderPath = Paths.get(System.getProperty("user.dir"),"cnc_programs").toString();
+        this.folderPath = CncProgramsManager.ARCHIVE_PATH;
         this.setAllPrograms();
         return this.folderPath;
     }
@@ -66,35 +70,72 @@ public class CncProgramsManager {
     private void setAllPrograms(){
 
         File folder = new File(this.folderPath);
-        int counter = 0;
+
         String fileName;
         String programName;
         this.cncProgramList.removeAll(this.cncProgramList);
         for (final File fileEntry : folder.listFiles()) {
-            counter = 0;
-            try(BufferedReader br = new BufferedReader(new FileReader(fileEntry))) {
-                fileName = fileEntry.getName();
-                if(fileName.startsWith("O")){
-                    for(String line; (line = br.readLine()) != null; ) {
-                        if(counter == 1){
-
-                            programName = line.replace(fileName, "").replace("(", "").replace(")", "");
-                            cncProgramList.add(new CncProgram(fileEntry, fileName, programName));
-                            break;
-                        }
-                        counter++;
-                    }
-                }
-            }catch (IOException ex){
-                System.out.print("cazzo");
+            fileName = fileEntry.getName();
+            if(fileName.startsWith("O")){
+                programName = this.createProgramName(fileEntry);
+                this.addProgramToList(fileEntry, fileName, programName);
             }
+        }
+    }
 
+    private String createProgramName(File fileEntry){
+        int counter = 0;
+        String programName = "UNDEFINED";
+        try(BufferedReader br = new BufferedReader(new FileReader(fileEntry))) {
+            String fileName = fileEntry.getName();
+
+            counter = 0;
+            for(String line; (line = br.readLine()) != null; ) {
+                if(counter == 1){
+
+                    programName = line.replace(fileName, "").replace("(", "").replace(")", "");
+
+                    break;
+                }
+                counter++;
+            }
+        }catch (IOException ex){
+            System.out.print("cazzo");
+        }
+        return programName;
+    }
+
+    private void addProgramToList(File fileEntry, String fileName, String programName){
+        cncProgramList.add(new CncProgram(fileEntry, fileName, programName));
+    }
+
+    private void removeProgramFromList(File fileEntry){
+        int size = cncProgramList.size();
+        String fileName = fileEntry.getName();
+
+        for(int i = 0; i < size; i++){
+            CncProgram temp = cncProgramList.get(i);
+
+            if(temp.getFileName().equals(fileName)){
+                System.out.println("rimosso dalla lista " + fileName);
+                cncProgramList.remove(i);
+                System.out.println(cncProgramList.size());
+                break;
+            }
         }
     }
 
     private int convertFromFileNameToInt(String fileName){
-        String parsedString = fileName.replace("O", "");
-        return Integer.parseInt(parsedString);
+        String parsedString = fileName.substring(1,5);
+        System.out.println(parsedString);
+        int fileNumber = 0;
+        try{
+            fileNumber = Integer.parseInt(parsedString);
+        }catch (NumberFormatException e){
+
+        }
+
+        return fileNumber;
     }
 
     private String convertFromFileNumberToFileName(int fileNumber){
@@ -114,54 +155,55 @@ public class CncProgramsManager {
 
     private int getNextFreeProgramNumber(){
         int size = cncProgramList.size();
-        int currentProgramNumber = 0;
-        int nextProgramNumber = 0;
+        int freeNextProgramNumber = 0;
+
+        ArrayList<Integer> numberList = new ArrayList<>();
 
         for(int i = 0; i < size; i++){
-            CncProgram current = cncProgramList.get(i);
+            int currentProgramNumber = 0;
             currentProgramNumber = convertFromFileNameToInt(cncProgramList.get(i).getFileName());
+            numberList.add(currentProgramNumber);
+        }
 
-            if(i == size){
-                nextProgramNumber = currentProgramNumber + 1;
+
+        for(int ii = CncProgramsManager.MIN_PROGRAMS_NUMBER; ii < CncProgramsManager.MAX_PROGRAMS_NUMBER; ii++){
+            int nextProgramNumber = ii;
+            if(!numberList.contains(nextProgramNumber) && !CncProgramsManager.PROGRAM_NUMBERS_NOT_AVAILABLE.contains(ii)){
+                freeNextProgramNumber = nextProgramNumber;
                 break;
-            }else{
-                if(convertFromFileNameToInt(cncProgramList.get(i + 1).getFileName()) - currentProgramNumber > 1){
-                    nextProgramNumber = currentProgramNumber + 1;
-                    break;
-                }
             }
         }
-        return nextProgramNumber;
+
+        return freeNextProgramNumber;
     }
 
-    private int getNextTwoFreeProgramNumbers(){
-        int size = cncProgramList.size();
-        int currentProgramNumber = 0;
-        int nextProgramNumber = 0;
-
-        for(int i = 0; i < size; i++){
-            CncProgram current = cncProgramList.get(i);
-            currentProgramNumber = convertFromFileNameToInt(cncProgramList.get(i).getFileName());
-
-            if(i == size){
-                nextProgramNumber = currentProgramNumber + 1;
-                break;
-            }else{
-                if(convertFromFileNameToInt(cncProgramList.get(i + 1).getFileName()) - currentProgramNumber > 2){
-                    nextProgramNumber = currentProgramNumber + 1;
-                    break;
-                }
-            }
-        }
-        return nextProgramNumber;
-    }
-
-
-    public String getNextTwoFreeProgramNames(){
-        return convertFromFileNumberToFileName(getNextTwoFreeProgramNumbers());
-    }
 
     public String getNextFreeProgramName(){
         return convertFromFileNumberToFileName(getNextFreeProgramNumber());
     }
+
+    public void deleteFile(File fileSelected){
+        this.removeProgramFromList(fileSelected);
+        fileSelected.delete();
+    }
+
+    public String copyProgram(File file) throws Exception{
+        String newFileName = this.getNextFreeProgramName();
+
+        String newFilePath = Paths.get( this.folderPath ,newFileName).toString();
+
+        File newFile= new File(newFilePath);
+        String fileName = file.getName();
+
+        Charset charset = StandardCharsets.UTF_8;
+
+        String content = new String(Files.readAllBytes(file.toPath()), charset);
+        content = content.replaceAll(fileName, newFileName);
+        Files.write(newFile.toPath(), content.getBytes(charset));
+
+        this.addProgramToList(newFile, newFileName, this.createProgramName(newFile));
+
+        return newFileName;
+    }
+
 }

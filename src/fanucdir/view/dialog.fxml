@@ -11,16 +11,17 @@
             fx:controller="fanucdir.controller.DialogController"
 >
 
-    <VBox prefWidth="300" alignment="BOTTOM_CENTER" spacing="20">
+    <VBox prefWidth="300" alignment="BOTTOM_CENTER" spacing="15">
 
         <BorderPane styleClass="dialogAskBox">
             <center>
                 <Text wrappingWidth="250" styleClass="textCenter" fx:id="confirmQuestion"></Text>
             </center>
         </BorderPane>
+        <TextField fx:id="textEntry"></TextField>
         <HBox styleClass="dialogBox" prefWidth="200" alignment="CENTER" spacing="50">
-            <Button onAction="#cancelCallBack">No</Button>
-            <Button onAction="#okCallBack">Si, cancella!</Button>
+            <Button onAction="#cancelCallBack" fx:id="cancelCallBackButton"></Button>
+            <Button onAction="#okCallBack" fx:id="okCallBackButton"></Button>
         </HBox>
     </VBox>
 </AnchorPane>

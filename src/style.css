@@ -27,7 +27,7 @@
 }
 
 .dialogBox{
-    -fx-padding:40 0 0 0;
+    -fx-padding:0 0 0 0;
 }
 
 .textCenter{
@@ -36,5 +36,9 @@
 }
 
 .dialogAskBox{
-    -fx-padding:40 0 0 0;
+    -fx-padding:10 0 0 0;
+}
+
+#centerPanel{
+    -fx-padding:0 30 0 30;
 }

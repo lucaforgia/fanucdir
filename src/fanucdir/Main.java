@@ -13,8 +13,7 @@ public class Main extends Application {
     private Stage primaryStage;
     private MainSceneController mainController;
     private Dialog confirmDialog;
-//    private RemoveDialogController removeDialogController;
-//    private Stage cancelDialogStage;
+    private boolean dialogAlreadyUsed = false;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -32,40 +31,13 @@ public class Main extends Application {
 
 
 //        MainSceneController mainController = (MainSceneController)loader.getController();
-        primaryStage.setTitle("FanucDir - cerca programma");
+        primaryStage.setTitle("FanucDir - gestore programmi");
         primaryStage.setScene(new Scene(root, 1000, 800));
+
         primaryStage.getScene().getStylesheets().add("style.css");
+        primaryStage.setMaximized(true);
         primaryStage.show();
 
-//        FXMLLoader removeDialogLoader = new FXMLLoader(getClass().getResource("view/removeDialogScene.fxml"));
-//        Parent removeDialogParent = (Parent)removeDialogLoader.load();
-
-
-//        this.removeDialogController = (RemoveDialogController)removeDialogLoader.getController();
-//        this.removeDialogController.setApp(this);
-//        this.cancelDialogStage = new Stage();
-//
-//        this.cancelDialogStage.initModality(Modality.APPLICATION_MODAL);
-//        this.cancelDialogStage.initOwner(primaryStage);
-//        Scene dialogScene = new Scene(removeDialogParent, 300, 200);
-//        this.cancelDialogStage.setTitle("Confermare");
-//        dialogScene.getStylesheets().add("style.css");
-//        this.cancelDialogStage.setScene(dialogScene);
-
-
-//        Dialog nuovo = new Dialog(primaryStage, "Canenero"){
-//            @Override
-//            public void okCallBack() {
-//                System.out.println("riscritto");
-//            }
-//        };
-//        nuovo.showDialog();
-//        nuovo.setConfirmQuestion("Sei ipersicuro");
-
-
-//        showDialog();
-
-//        mainController.ratto();
     }
 
 
@@ -77,6 +49,11 @@ public class Main extends Application {
     public void showRemoveDialog() throws Exception{
 //        this.cancelDialogStage.show();
 
+        if(dialogAlreadyUsed){
+            this.confirmDialog.hide();
+        }else{
+            dialogAlreadyUsed = true;
+        }
         Main app = this;
         String selectedFileName = this.mainController.getFileSelectedName();
         String question = "Sei sicuro di voler cancellare il file " + selectedFileName + "?";
@@ -89,8 +66,59 @@ public class Main extends Application {
             }
         };
 
+        this.confirmDialog.setCancelCallBackButtonText("Annulla");
+        this.confirmDialog.setOkCallBackButtonText("Sì, cancella!");
+
         this.confirmDialog.show();
     }
+
+    public void showArchiveDialog(String newFileName) throws Exception{
+
+        if(dialogAlreadyUsed){
+            this.confirmDialog.hide();
+        }else{
+            dialogAlreadyUsed = true;
+        }
+        Main app = this;
+        String question = "File archiviato con nome " + newFileName + "";
+        this.confirmDialog = new Dialog(this.primaryStage, question){
+
+            @Override
+            public void okCallBack() {
+                this.hide();
+            }
+        };
+
+        this.confirmDialog.hideCancelButton();
+        this.confirmDialog.setOkCallBackButtonText("Ricevuto");
+
+        this.confirmDialog.show();
+    }
+
+    public void showCopiedDialog(String newFileName) throws Exception{
+
+        if(dialogAlreadyUsed){
+            this.confirmDialog.hide();
+        }else{
+            dialogAlreadyUsed = true;
+        }
+        Main app = this;
+        String question = "File copiato con nome " + newFileName + "";
+        this.confirmDialog = new Dialog(this.primaryStage, question){
+
+            @Override
+            public void okCallBack() {
+                this.hide();
+            }
+        };
+
+        this.confirmDialog.hideCancelButton();
+        this.confirmDialog.setOkCallBackButtonText("Ricevuto");
+
+        this.confirmDialog.show();
+    }
+
+
 
     public static void main(String[] args) {
         launch(args);
