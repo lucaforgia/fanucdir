@@ -10,6 +10,4 @@
 
 ## V1.1.0
 - bottone archivia tutto
-- ricerca su spazio
 - se gia archiviato aggiungere un commento seconda linea o prima linea, quando si fa copia
-- limitare lettura righe programma

@@ -33,7 +33,7 @@
     <left>
         <TableView fx:id="programTable" prefWidth="300">
             <columns>
-                <TableColumn prefWidth="200" resizable="false" fx:id="programNameColumn" text="Programma">
+                <TableColumn prefWidth="200" resizable="false" fx:id="programTitleColumn" text="Programma">
                 </TableColumn>
                 <TableColumn prefWidth="99" fx:id="fileNameColumn" text="File">
                 </TableColumn>
@@ -65,7 +65,6 @@
 
     <bottom>
         <HBox spacing="10" fx:id="bottom">
-            <!--<Button onAction="#getNextFreeProgramName">Get next free Program name</Button>-->
             <Text>https://github.com/lucaforgia/fanucdir</Text>
         </HBox>
     </bottom>

@@ -44,11 +44,11 @@ public class CncProgramsManager {
         return fileToReturn;
     }
 
-    private boolean searchProgramName(String programName, ArrayList<String> words){
+    private boolean searchProgramTitle(String programTitle, ArrayList<String> words){
         boolean isInside = true;
         int wordsLen = words.size();
         for(int i = 0; i < wordsLen; i++){
-            if(!programName.contains(words.get(i).toString())){
+            if(!programTitle.contains(words.get(i).toString())){
                 isInside = false;
                 break;
             }
@@ -63,7 +63,7 @@ public class CncProgramsManager {
         ArrayList<String> words = new ArrayList<>(Arrays.asList(normalizedText.split(" ")));
 
         ArrayList<CncProgram> filteredList = new ArrayList<>();
-        cncProgramList.forEach(program -> {if(searchProgramName(program.getProgramName().toLowerCase(), words)){ filteredList.add(program); }});
+        cncProgramList.forEach(program -> {if(searchProgramTitle(program.getProgramTitle().toLowerCase(), words)){ filteredList.add(program); }});
         return filteredList;
     }
 
@@ -88,20 +88,20 @@ public class CncProgramsManager {
         File folder = new File(this.folderPath);
 
         String fileName;
-        String programName;
+        String programTitle;
         this.cncProgramList.removeAll(this.cncProgramList);
         for (final File fileEntry : folder.listFiles()) {
             fileName = fileEntry.getName();
             if(fileName.startsWith("O")){
-                programName = this.createProgramName(fileEntry);
-                this.addProgramToList(fileEntry, fileName, programName);
+                programTitle = this.createProgramTitle(fileEntry);
+                this.addProgramToList(fileEntry, fileName, programTitle);
             }
         }
     }
 
-    private String createProgramName(File fileEntry){
+    private String createProgramTitle(File fileEntry){
         int counter = 0;
-        String programName = "UNDEFINED";
+        String programTitle = "UNDEFINED";
         try(BufferedReader br = new BufferedReader(new FileReader(fileEntry))) {
             String fileName = fileEntry.getName();
 
@@ -109,7 +109,7 @@ public class CncProgramsManager {
             for(String line; (line = br.readLine()) != null; ) {
                 if(counter == 1){
 
-                    programName = line.replace(fileName, "").replace("(", "").replace(")", "");
+                    programTitle = line.replace(fileName, "").replace("(", "").replace(")", "");
 
                     break;
                 }
@@ -118,11 +118,11 @@ public class CncProgramsManager {
         }catch (IOException ex){
             System.out.print("cazzo");
         }
-        return programName;
+        return programTitle;
     }
 
-    private void addProgramToList(File fileEntry, String fileName, String programName){
-        cncProgramList.add(new CncProgram(fileEntry, fileName, programName));
+    private void addProgramToList(File fileEntry, String fileName, String programTitle){
+        cncProgramList.add(new CncProgram(fileEntry, fileName, programTitle));
     }
 
     private void removeProgramFromList(File fileEntry){
@@ -194,7 +194,7 @@ public class CncProgramsManager {
     }
 
 
-    public String getNextFreeProgramName(){
+    public String getNextFreeFileName(){
         return convertFromFileNumberToFileName(getNextFreeProgramNumber());
     }
 
@@ -204,7 +204,7 @@ public class CncProgramsManager {
     }
 
     public String copyProgram(File file) throws Exception{
-        String newFileName = this.getNextFreeProgramName();
+        String newFileName = this.getNextFreeFileName();
 
         String newFilePath = Paths.get( this.folderPath ,newFileName).toString();
 
@@ -217,7 +217,7 @@ public class CncProgramsManager {
         content = content.replaceAll(fileName, newFileName);
         Files.write(newFile.toPath(), content.getBytes(charset));
 
-        this.addProgramToList(newFile, newFileName, this.createProgramName(newFile));
+        this.addProgramToList(newFile, newFileName, this.createProgramTitle(newFile));
 
         return newFileName;
     }

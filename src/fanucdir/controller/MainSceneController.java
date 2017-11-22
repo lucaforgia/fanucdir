@@ -40,7 +40,7 @@ public class MainSceneController implements Initializable{
     private TableView<CncProgram> programTable;
 
     @FXML
-    private TableColumn<CncProgram, String> programNameColumn;
+    private TableColumn<CncProgram, String> programTitleColumn;
 
     @FXML
     private TableColumn<CncProgram, String> fileNameColumn;
@@ -79,13 +79,13 @@ public class MainSceneController implements Initializable{
     public void initialize(URL location, ResourceBundle resources){
         System.out.print("in inzialize");
 
-        programNameColumn.setCellValueFactory(new PropertyValueFactory<CncProgram, String>("programName"));
+        programTitleColumn.setCellValueFactory(new PropertyValueFactory<CncProgram, String>("programTitle"));
 
         fileNameColumn.setCellValueFactory(new PropertyValueFactory<CncProgram, String>("fileName"));
 
 //        programTable.getItems().setAll(parseUserList());
 
-        programTable.getColumns().setAll(programNameColumn, fileNameColumn);
+        programTable.getColumns().setAll(programTitleColumn, fileNameColumn);
         programText.setEditable(false);
 
         programTable.setItems(cncProgramObservableList);
@@ -96,7 +96,7 @@ public class MainSceneController implements Initializable{
 
         programTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
-                selectProgram(newSelection.getFileName(), newSelection.getProgramName());
+                selectProgram(newSelection.getFileName(), newSelection.getProgramTitle());
             }
         });
 
@@ -118,7 +118,7 @@ public class MainSceneController implements Initializable{
         programText.clear();
     }
 
-    private void selectProgram(String fileName, String programName){
+    private void selectProgram(String fileName, String programTitle){
         programText.setScrollTop(0);
         File fileSelected = showedCncProgramsManager.getProgram(fileName);
         this.fileSelected = fileSelected;
@@ -137,7 +137,7 @@ public class MainSceneController implements Initializable{
                 }
             }
             programText.positionCaret(0);
-            currentProgram.setText(fileName + " / " + programName);
+            currentProgram.setText(fileName + " / " + programTitle);
             showProgramTextButtons(true);
 
         }catch (IOException ex){
@@ -259,12 +259,6 @@ public class MainSceneController implements Initializable{
     public void reloadFolder(){
         showedCncProgramsManager.reloadCncProgramList();
         showPrograms();
-    }
-
-    public void getNextFreeProgramName(){
-        String nextFreeProgramName = showedCncProgramsManager.getNextFreeProgramName();
-        System.out.println(nextFreeProgramName);
-
     }
 
     public void setMainStage(Stage mainStage){

@@ -7,12 +7,12 @@ import java.io.File;
 
 public class CncProgram {
     public StringProperty fileName;
-    private StringProperty programName;
+    private StringProperty programTitle;
     private File programFile;
 
-    public CncProgram(File programFile, String fileName, String programName){
+    public CncProgram(File programFile, String fileName, String programTitle){
         this.fileName = new SimpleStringProperty(fileName);
-        this.programName = new SimpleStringProperty(programName);
+        this.programTitle = new SimpleStringProperty(programTitle);
         this.programFile = programFile;
     }
 
@@ -20,8 +20,8 @@ public class CncProgram {
         return this.fileName.get();
     }
 
-    public String getProgramName(){
-        return this.programName.get();
+    public String getProgramTitle(){
+        return this.programTitle.get();
     }
 
     public File getProgramFile(){
