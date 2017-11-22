@@ -127,8 +127,14 @@ public class MainSceneController implements Initializable{
 
         try(BufferedReader br = new BufferedReader(new FileReader(fileSelected))) {
             programText.clear();
+            int lineCounter = 0;
             for(String line; (line = br.readLine()) != null; ) {
                 programText.appendText(line + "\n");
+                lineCounter++;
+                if(lineCounter > CncProgramsManager.MAX_LINES_SHOWED){
+                    programText.appendText(">>>>>>>> CONTINUA <<<<<<<<\n");
+                    break;
+                }
             }
             programText.positionCaret(0);
             currentProgram.setText(fileName + " / " + programName);

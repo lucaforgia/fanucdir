@@ -3,7 +3,6 @@ package fanucdir;
 import fanucdir.model.CncProgram;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -20,6 +19,7 @@ public class CncProgramsManager {
     public final static String ARCHIVE_PATH = Paths.get(System.getProperty("user.dir"),"cnc_programs").toString();
     private final static int MAX_PROGRAMS_NUMBER = 8999;
     private final static int MIN_PROGRAMS_NUMBER = 101;
+    public final static int MAX_LINES_SHOWED = 500;
 
     public static final List<Integer> PROGRAM_NUMBERS_NOT_AVAILABLE = Collections.unmodifiableList(Arrays.asList(0,1,54));
 
