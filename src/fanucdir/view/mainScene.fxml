@@ -24,8 +24,8 @@
             </HBox>
             <HBox spacing="10">
                 <Button onAction="#resetFilter">*</Button>
-                <TextField prefWidth="200" fx:id="textToSearch" onAction="#searchProgram"></TextField>
-                <Button onAction="#searchProgram">cerca</Button>
+                <TextField prefWidth="200" fx:id="textToSearch" onAction="#searchProgramsForName"></TextField>
+                <Button onAction="#searchProgramsForName">cerca</Button>
             </HBox>
 
         </VBox>

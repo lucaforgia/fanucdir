@@ -165,8 +165,10 @@ public class MainSceneController implements Initializable{
 
     private void showPrograms(){
         cncProgramObservableList.removeAll(cncProgramObservableList);
-        if(textToSearch.getText() != ""){
-            this.searchProgram();
+
+        if(!textToSearch.getText().toString().equals("")){
+            String text = textToSearch.getText();
+            showedCncProgramsManager.filterPrograms(text).forEach(program -> cncProgramObservableList.add(program));
         }
         else{
             showedCncProgramsManager.getCncProgramList().forEach(program -> cncProgramObservableList.add(program));
@@ -208,18 +210,13 @@ public class MainSceneController implements Initializable{
         showProgramTextButtons(false);
     }
 
-    public void searchProgram(){
-        String text = textToSearch.getText().toLowerCase();
-
-        cncProgramObservableList.removeAll(cncProgramObservableList);
-
-        showedCncProgramsManager.filterPrograms(text).forEach(program -> cncProgramObservableList.add(program));
-
+    public void searchProgramsForName(){
+        showPrograms();
     }
 
     public void resetFilter(){
         textToSearch.setText("");
-        this.searchProgram();
+        this.showPrograms();
     }
 
     public void chooseDirectory(){

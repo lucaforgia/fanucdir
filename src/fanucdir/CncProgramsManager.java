@@ -3,6 +3,7 @@ package fanucdir;
 import fanucdir.model.CncProgram;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -43,11 +44,26 @@ public class CncProgramsManager {
         return fileToReturn;
     }
 
-    public ArrayList<CncProgram> filterPrograms(String textToSearch){
+    private boolean searchProgramName(String programName, ArrayList<String> words){
+        boolean isInside = true;
+        int wordsLen = words.size();
+        for(int i = 0; i < wordsLen; i++){
+            if(!programName.contains(words.get(i).toString())){
+                isInside = false;
+                break;
+            }
+        }
 
+        return isInside;
+    }
+
+    public ArrayList<CncProgram> filterPrograms(String textToSearch){
         String normalizedText = textToSearch.toLowerCase();
+
+        ArrayList<String> words = new ArrayList<>(Arrays.asList(normalizedText.split(" ")));
+
         ArrayList<CncProgram> filteredList = new ArrayList<>();
-        cncProgramList.forEach(program -> {if(program.getProgramName().toLowerCase().contains(normalizedText)){ filteredList.add(program); }});
+        cncProgramList.forEach(program -> {if(searchProgramName(program.getProgramName().toLowerCase(), words)){ filteredList.add(program); }});
         return filteredList;
     }
 
