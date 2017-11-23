@@ -10,4 +10,4 @@
 
 ## V1.1.0
 - bottone archivia tutto
-- se gia archiviato aggiungere un commento seconda linea o prima linea, quando si fa copia
+- se gia archiviato aggiungere un commento seconda linea o prima linea, quando si fa copia. Meglio linea separata cosi facile da togliere

@@ -20,6 +20,7 @@ public class CncProgramsManager {
     private final static int MAX_PROGRAMS_NUMBER = 8999;
     private final static int MIN_PROGRAMS_NUMBER = 101;
     public final static int MAX_LINES_SHOWED = 500;
+    private final static String ARCHIVE_TAG = "(__ARCHIVIATO__)";
 
     public static final List<Integer> PROGRAM_NUMBERS_NOT_AVAILABLE = Collections.unmodifiableList(Arrays.asList(0,1,54));
 
@@ -203,7 +204,23 @@ public class CncProgramsManager {
         fileSelected.delete();
     }
 
-    public String copyProgram(File file) throws Exception{
+    public String copyProgramWithTag(File file)throws Exception{
+        return this.copyProgram(file, true,false);
+    }
+
+    public String copyProgramIfNoTag(File file)throws Exception{
+        return this.copyProgram(file, false,true);
+    }
+
+    private String copyProgram(File file, boolean addTag, boolean dontCopyIfTag) throws Exception{
+
+        Charset charset = StandardCharsets.UTF_8;
+        String content = new String(Files.readAllBytes(file.toPath()), charset);
+
+        if(content.contains(CncProgramsManager.ARCHIVE_TAG)){
+            throw new Exception();
+        }
+
         String newFileName = this.getNextFreeFileName();
 
         String newFilePath = Paths.get( this.folderPath ,newFileName).toString();
@@ -211,10 +228,11 @@ public class CncProgramsManager {
         File newFile= new File(newFilePath);
         String fileName = file.getName();
 
-        Charset charset = StandardCharsets.UTF_8;
-
-        String content = new String(Files.readAllBytes(file.toPath()), charset);
         content = content.replaceAll(fileName, newFileName);
+        if(addTag){
+            content = content.replace(")", ")\n" + CncProgramsManager.ARCHIVE_TAG);
+        }
+
         Files.write(newFile.toPath(), content.getBytes(charset));
 
         this.addProgramToList(newFile, newFileName, this.createProgramTitle(newFile));

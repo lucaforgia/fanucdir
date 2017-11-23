@@ -199,14 +199,14 @@ public class MainSceneController implements Initializable{
         CncProgramsManager copyFolderCncProgramsManager = new CncProgramsManager();
         copyFolderCncProgramsManager.setFolderPath(newPath);
 
-        String newFileName = copyFolderCncProgramsManager.copyProgram(this.fileSelected);
+        String newFileName = copyFolderCncProgramsManager.copyProgramWithTag(this.fileSelected);
 
         app.showCopiedDialog(newFileName);
 
     }
 
     public void archiveProgram() throws Exception{
-       String newFileName = archiveCncProgramsManager.copyProgram(this.fileSelected);
+       String newFileName = archiveCncProgramsManager.copyProgramIfNoTag(this.fileSelected);
        app.showArchiveDialog(newFileName);
     }
 
