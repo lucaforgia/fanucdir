@@ -31,9 +31,8 @@ public class MainSceneController implements Initializable{
     private Stage mainStage;
 
     private Main app;
-    private String filePathSelected;
     private String programsFolderSelected;
-    private File fileSelected;
+    private CncProgram programSelected;
 
 
     @FXML
@@ -96,7 +95,8 @@ public class MainSceneController implements Initializable{
 
         programTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
-                selectProgram(newSelection.getFileName(), newSelection.getProgramTitle());
+//                selectProgram(newSelection.getFileName(), newSelection.getProgramTitle());
+                selectProgram(newSelection);
             }
         });
 
@@ -118,32 +118,26 @@ public class MainSceneController implements Initializable{
         programText.clear();
     }
 
-    private void selectProgram(String fileName, String programTitle){
+
+
+    private void selectProgram(CncProgram program){
         programText.setScrollTop(0);
-        File fileSelected = showedCncProgramsManager.getProgram(fileName);
-        this.fileSelected = fileSelected;
-        filePathSelected = fileSelected.getPath();
+        this.programSelected = program;
+        programText.clear();
 
-
-        try(BufferedReader br = new BufferedReader(new FileReader(fileSelected))) {
-            programText.clear();
-            int lineCounter = 0;
-            for(String line; (line = br.readLine()) != null; ) {
-                programText.appendText(line + "\n");
-                lineCounter++;
-                if(lineCounter > CncProgramsManager.MAX_LINES_SHOWED){
-                    programText.appendText(">>>>>>>> CONTINUA <<<<<<<<\n");
-                    break;
-                }
-            }
-            programText.positionCaret(0);
-            currentProgram.setText(fileName + " / " + programTitle);
-            showProgramTextButtons(true);
-
-        }catch (IOException ex){
-
+        if(program.getProgramContent().length() > CncProgramsManager.MAX_CHAR_SHOWED){
+            programText.appendText(program.getProgramContent().substring(0, CncProgramsManager.MAX_CHAR_SHOWED));
+            programText.appendText("... >>>>>>>> CONTINUA <<<<<<<<\n");
+        }else{
+            programText.appendText(program.getProgramContent());
         }
+
+        programText.positionCaret(0);
+        currentProgram.setText(program.getFileName() + " / " + program.getProgramTitle());
+        showProgramTextButtons(true);
+
     }
+
 
     private void showProgramTextButtons(boolean ohYes){
         boolean isArchiveSelected = this.programsFolderSelected.equals(CncProgramsManager.ARCHIVE_PATH);
@@ -162,7 +156,7 @@ public class MainSceneController implements Initializable{
     }
 
     public String getFileSelectedName(){
-        return this.fileSelected.getName();
+        return this.programSelected.getFileName();
     }
 
     public void setApp(Main app){
@@ -186,7 +180,6 @@ public class MainSceneController implements Initializable{
     public void askIfDelete() throws Exception{
 //        app.cacca();
         app.showRemoveDialog();
-//        this.fileSelected.delete();
     }
 
     public void copyProgram() throws Exception{
@@ -199,19 +192,21 @@ public class MainSceneController implements Initializable{
         CncProgramsManager copyFolderCncProgramsManager = new CncProgramsManager();
         copyFolderCncProgramsManager.setFolderPath(newPath);
 
-        String newFileName = copyFolderCncProgramsManager.copyProgramWithTag(this.fileSelected);
+        String newFileName = copyFolderCncProgramsManager.copyProgramWithTag(this.programSelected);
+
+        System.out.println("copiato");
 
         app.showCopiedDialog(newFileName);
 
     }
 
     public void archiveProgram() throws Exception{
-       String newFileName = archiveCncProgramsManager.copyProgramIfNoTag(this.fileSelected);
+       String newFileName = archiveCncProgramsManager.copyProgramIfNoTag(this.programSelected);
        app.showArchiveDialog(newFileName);
     }
 
-    public void deleteFileSelected(){
-        this.showedCncProgramsManager.deleteFile(this.fileSelected);
+    public void deleteProgramSelected(){
+        this.showedCncProgramsManager.deleteProgram(this.programSelected);
         this.reloadFolder();
         showProgramTextButtons(false);
     }
@@ -228,8 +223,6 @@ public class MainSceneController implements Initializable{
     public void chooseDirectory(){
         DirectoryChooser chooser = new DirectoryChooser();
         chooser.setTitle("JavaFX Projects");
-//        File defaultDirectory = new File("c:/dev/javafx");
-//        chooser.setInitialDirectory(defaultDirectory);
         File selectedDirectory = chooser.showDialog(mainStage);
 
 

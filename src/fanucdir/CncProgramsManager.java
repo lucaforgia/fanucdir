@@ -19,8 +19,10 @@ public class CncProgramsManager {
     public final static String ARCHIVE_PATH = Paths.get(System.getProperty("user.dir"),"cnc_programs").toString();
     private final static int MAX_PROGRAMS_NUMBER = 8999;
     private final static int MIN_PROGRAMS_NUMBER = 101;
-    public final static int MAX_LINES_SHOWED = 500;
-    private final static String ARCHIVE_TAG = "(__ARCHIVIATO__)";
+    public final static int MAX_LINES_SHOWED = 300;
+    public final static int CHAR_FOR_LINE = 15;
+    public final static int MAX_CHAR_SHOWED = CncProgramsManager.MAX_LINES_SHOWED * CncProgramsManager.CHAR_FOR_LINE;
+    public final static String ARCHIVE_TAG = "(__ARCHIVIATO__)";
 
     public static final List<Integer> PROGRAM_NUMBERS_NOT_AVAILABLE = Collections.unmodifiableList(Arrays.asList(0,1,54));
 
@@ -30,7 +32,7 @@ public class CncProgramsManager {
 
     public File getProgram(String fileName){
 
-       File fileToReturn = cncProgramList.get(0).getProgramFile();
+       File fileToReturn  = cncProgramList.get(0).getProgramFile();
 //       cncProgramList.forEach(program -> {if(program.getFileName() == fileName){ return program.getProgramFile(); }});
 
         int size = cncProgramList.size();
@@ -89,46 +91,26 @@ public class CncProgramsManager {
         File folder = new File(this.folderPath);
 
         String fileName;
-        String programTitle;
         this.cncProgramList.removeAll(this.cncProgramList);
         for (final File fileEntry : folder.listFiles()) {
             fileName = fileEntry.getName();
-            if(fileName.startsWith("O")){
-                programTitle = this.createProgramTitle(fileEntry);
-                this.addProgramToList(fileEntry, fileName, programTitle);
+            if(fileName.startsWith("O") && this.convertFromFileNameToInt(fileName) != 0){
+                this.addProgramToList(fileEntry);
             }
         }
     }
 
-    private String createProgramTitle(File fileEntry){
-        int counter = 0;
-        String programTitle = "UNDEFINED";
-        try(BufferedReader br = new BufferedReader(new FileReader(fileEntry))) {
-            String fileName = fileEntry.getName();
-
-            counter = 0;
-            for(String line; (line = br.readLine()) != null; ) {
-                if(counter == 1){
-
-                    programTitle = line.replace(fileName, "").replace("(", "").replace(")", "");
-
-                    break;
-                }
-                counter++;
-            }
-        }catch (IOException ex){
-            System.out.print("cazzo");
-        }
-        return programTitle;
+    private void addProgramToList(File fileEntry, String fileName, String content){
+        cncProgramList.add(new CncProgram(fileEntry, fileName, content));
     }
 
-    private void addProgramToList(File fileEntry, String fileName, String programTitle){
-        cncProgramList.add(new CncProgram(fileEntry, fileName, programTitle));
+    private void addProgramToList(File fileEntry){
+        cncProgramList.add(new CncProgram(fileEntry));
     }
 
-    private void removeProgramFromList(File fileEntry){
+    private void removeProgramFromList(CncProgram programSelected){
         int size = cncProgramList.size();
-        String fileName = fileEntry.getName();
+        String fileName = programSelected.getFileName();
 
         for(int i = 0; i < size; i++){
             CncProgram temp = cncProgramList.get(i);
@@ -199,43 +181,42 @@ public class CncProgramsManager {
         return convertFromFileNumberToFileName(getNextFreeProgramNumber());
     }
 
-    public void deleteFile(File fileSelected){
-        this.removeProgramFromList(fileSelected);
-        fileSelected.delete();
+    public void deleteProgram(CncProgram programSelected){
+        this.removeProgramFromList(programSelected);
+        programSelected.getProgramFile().delete();
     }
 
-    public String copyProgramWithTag(File file)throws Exception{
-        return this.copyProgram(file, true,false);
+    public String copyProgramWithTag(CncProgram program)throws Exception{
+        return this.copyProgram(program, true,false);
     }
 
-    public String copyProgramIfNoTag(File file)throws Exception{
-        return this.copyProgram(file, false,true);
+    public String copyProgramIfNoTag(CncProgram program)throws Exception{
+        return this.copyProgram(program, false,true);
     }
 
-    private String copyProgram(File file, boolean addTag, boolean dontCopyIfTag) throws Exception{
+    private String copyProgram(CncProgram program, boolean addTag, boolean dontCopyIfTag) throws Exception{
 
-        Charset charset = StandardCharsets.UTF_8;
-        String content = new String(Files.readAllBytes(file.toPath()), charset);
-
-        if(content.contains(CncProgramsManager.ARCHIVE_TAG)){
+        if(dontCopyIfTag && program.getIsArchived()){
+            System.out.println("canemorto");
             throw new Exception();
         }
+
+        Charset charset = StandardCharsets.UTF_8;
 
         String newFileName = this.getNextFreeFileName();
 
         String newFilePath = Paths.get( this.folderPath ,newFileName).toString();
 
         File newFile= new File(newFilePath);
-        String fileName = file.getName();
 
-        content = content.replaceAll(fileName, newFileName);
+        String content = program.getProgramContent().replaceAll(program.getFileName(), newFileName);
         if(addTag){
-            content = content.replace(")", ")\n" + CncProgramsManager.ARCHIVE_TAG);
+            content = content.replaceFirst("[)]", ")\n" + CncProgramsManager.ARCHIVE_TAG);
         }
 
         Files.write(newFile.toPath(), content.getBytes(charset));
 
-        this.addProgramToList(newFile, newFileName, this.createProgramTitle(newFile));
+        this.addProgramToList(newFile, newFileName, content);
 
         return newFileName;
     }

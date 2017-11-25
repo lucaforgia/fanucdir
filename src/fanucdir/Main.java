@@ -42,7 +42,7 @@ public class Main extends Application {
 
 
     public void deleteFile(){
-        this.mainController.deleteFileSelected();
+        this.mainController.deleteProgramSelected();
 //        this.cancelDialogStage.hide();
     }
 
