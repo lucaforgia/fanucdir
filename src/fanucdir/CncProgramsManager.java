@@ -7,6 +7,9 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -22,7 +25,6 @@ public class CncProgramsManager {
     public final static int MAX_LINES_SHOWED = 300;
     public final static int CHAR_FOR_LINE = 15;
     public final static int MAX_CHAR_SHOWED = CncProgramsManager.MAX_LINES_SHOWED * CncProgramsManager.CHAR_FOR_LINE;
-    public final static String ARCHIVE_TAG = "(__ARCHIVIATO__)";
 
     public static final List<Integer> PROGRAM_NUMBERS_NOT_AVAILABLE = Collections.unmodifiableList(Arrays.asList(0,1,54));
 
@@ -126,7 +128,6 @@ public class CncProgramsManager {
 
     private int convertFromFileNameToInt(String fileName){
         String parsedString = fileName.substring(1,5);
-        System.out.println(parsedString);
         int fileNumber = 0;
         try{
             fileNumber = Integer.parseInt(parsedString);
@@ -186,20 +187,7 @@ public class CncProgramsManager {
         programSelected.getProgramFile().delete();
     }
 
-    public String copyProgramWithTag(CncProgram program)throws Exception{
-        return this.copyProgram(program, true,false);
-    }
-
-    public String copyProgramIfNoTag(CncProgram program)throws Exception{
-        return this.copyProgram(program, false,true);
-    }
-
-    private String copyProgram(CncProgram program, boolean addTag, boolean dontCopyIfTag) throws Exception{
-
-        if(dontCopyIfTag && program.getIsArchived()){
-            System.out.println("canemorto");
-            throw new Exception();
-        }
+    public String copyProgram(CncProgram program, boolean addDate) throws Exception{
 
         Charset charset = StandardCharsets.UTF_8;
 
@@ -210,8 +198,10 @@ public class CncProgramsManager {
         File newFile= new File(newFilePath);
 
         String content = program.getProgramContent().replaceAll(program.getFileName(), newFileName);
-        if(addTag){
-            content = content.replaceFirst("[)]", ")\n" + CncProgramsManager.ARCHIVE_TAG);
+        if(addDate){
+            LocalDateTime date = LocalDateTime.now();
+            String fomattedDate = date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL));
+            content = content.replaceFirst("[)]", ")\n(" + fomattedDate + ")");
         }
 
         Files.write(newFile.toPath(), content.getBytes(charset));

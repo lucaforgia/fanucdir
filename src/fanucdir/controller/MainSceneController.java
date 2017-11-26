@@ -192,7 +192,7 @@ public class MainSceneController implements Initializable{
         CncProgramsManager copyFolderCncProgramsManager = new CncProgramsManager();
         copyFolderCncProgramsManager.setFolderPath(newPath);
 
-        String newFileName = copyFolderCncProgramsManager.copyProgramWithTag(this.programSelected);
+        String newFileName = copyFolderCncProgramsManager.copyProgram(this.programSelected, false);
 
         System.out.println("copiato");
 
@@ -201,7 +201,7 @@ public class MainSceneController implements Initializable{
     }
 
     public void archiveProgram() throws Exception{
-       String newFileName = archiveCncProgramsManager.copyProgramIfNoTag(this.programSelected);
+       String newFileName = archiveCncProgramsManager.copyProgram(this.programSelected, true);
        app.showArchiveDialog(newFileName);
     }
 

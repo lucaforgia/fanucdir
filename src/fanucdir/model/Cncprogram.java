@@ -15,14 +15,12 @@ public class CncProgram {
     private StringProperty programTitle;
     private File programFile;
     private String programContent;
-    private boolean isArchived;
 
     public CncProgram(File programFile, String fileName, String programContent){
         this.fileName = new SimpleStringProperty(fileName);
         this.programTitle = new SimpleStringProperty(this.createProgramTitle(programContent));
         this.programFile = programFile;
         this.programContent = programContent;
-        this.isArchived = programContent.contains(CncProgramsManager.ARCHIVE_TAG);
     }
 
     public CncProgram(File programFile){
@@ -33,7 +31,6 @@ public class CncProgram {
             this.programTitle = new SimpleStringProperty(this.createProgramTitle(content));
             this.programFile = programFile;
             this.programContent = content;
-            this.isArchived = programContent.contains(CncProgramsManager.ARCHIVE_TAG);
 
         }catch (IOException ex){
             System.out.print("cazzo");
@@ -43,8 +40,6 @@ public class CncProgram {
     public String getFileName(){
         return this.fileName.get();
     }
-
-    public boolean getIsArchived(){return this.isArchived;}
 
     public String getProgramContent(){
         return this.programContent;
