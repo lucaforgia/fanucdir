@@ -3,6 +3,7 @@ package fanucdir.controller;
 import fanucdir.CncProgramsManager;
 import fanucdir.Main;
 import fanucdir.model.CncProgram;
+import fanucdir.model.Tool;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -27,6 +28,7 @@ import java.util.ResourceBundle;
 public class MainSceneController implements Initializable{
 
     private ObservableList<CncProgram> cncProgramObservableList = FXCollections.observableArrayList();
+    private ObservableList<Tool> programToolsObsList = FXCollections.observableArrayList();
     private final CncProgramsManager archiveCncProgramsManager = new CncProgramsManager();
     private CncProgramsManager showedCncProgramsManager = archiveCncProgramsManager;
     private Stage mainStage;
@@ -52,9 +54,6 @@ public class MainSceneController implements Initializable{
     private TextArea programText;
 
     @FXML
-    private TableView infoTable;
-
-    @FXML
     private VBox centerPanel;
 
     @FXML
@@ -78,24 +77,25 @@ public class MainSceneController implements Initializable{
     @FXML
     private Button archiveButton;
 
+    @FXML
+    private TableView<Tool> toolsTable;
+
+    @FXML
+    private TableColumn<Tool, String> toolsCodeColumn;
+
+    @FXML
+    private TableColumn<Tool, String> toolsCommentColumn;
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources){
         System.out.print("in inzialize");
 
         programTitleColumn.setCellValueFactory(new PropertyValueFactory<CncProgram, String>("programTitle"));
-
         fileNameColumn.setCellValueFactory(new PropertyValueFactory<CncProgram, String>("fileName"));
-
-//        programTable.getItems().setAll(parseUserList());
-
         programTable.getColumns().setAll(programTitleColumn, fileNameColumn);
         programText.setEditable(false);
-
         programTable.setItems(cncProgramObservableList);
-
-//        cncProgramObservableList.add(new CncprogramOld("o9999", "Fast merda bla bla bla"));
-//        cncProgramObservableList.add(new CncprogramOld("oskkdjd", "Fast puzza"));
-
 
         programTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
@@ -103,6 +103,14 @@ public class MainSceneController implements Initializable{
                 selectProgram(newSelection);
             }
         });
+
+        toolsCodeColumn.setCellValueFactory(new PropertyValueFactory<Tool, String>("toolCode"));
+        toolsCommentColumn.setCellValueFactory(new PropertyValueFactory<Tool, String>("toolComment"));
+        toolsTable.getColumns().setAll(toolsCodeColumn, toolsCommentColumn);
+        toolsTable.setItems(programToolsObsList);
+
+        toolsCodeColumn.prefWidthProperty().bind(toolsTable.widthProperty().multiply(0.24));
+        toolsCommentColumn.prefWidthProperty().bind(toolsTable.widthProperty().multiply(0.75));
 
         deleteButton.setVisible(false);
         copyButton.setVisible(false);
@@ -121,6 +129,7 @@ public class MainSceneController implements Initializable{
 
     private void clearProgramText(){
         programText.clear();
+        this.clearTools();
     }
 
 
@@ -129,6 +138,8 @@ public class MainSceneController implements Initializable{
         programText.setScrollTop(0);
         this.programSelected = program;
         programText.clear();
+
+        this.showTools(program);
 
         if(program.getProgramContent().length() > CncProgramsManager.MAX_CHAR_SHOWED){
             programText.appendText(program.getProgramContent().substring(0, CncProgramsManager.MAX_CHAR_SHOWED));
@@ -141,6 +152,16 @@ public class MainSceneController implements Initializable{
         currentProgram.setText(program.getFileName() + " / " + program.getProgramTitle());
         showProgramTextButtons(true);
 
+    }
+
+    private void clearTools(){
+        programToolsObsList.removeAll(programToolsObsList);
+    }
+
+    private void showTools(CncProgram program){
+        this.clearTools();
+
+        this.programToolsObsList.setAll(program.getTools());
     }
 
 

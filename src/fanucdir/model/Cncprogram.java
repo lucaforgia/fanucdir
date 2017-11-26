@@ -9,6 +9,10 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CncProgram {
     public StringProperty fileName;
@@ -56,5 +60,23 @@ public class CncProgram {
     private String createProgramTitle(String programContent){
         String rawTitle = programContent.substring(programContent.indexOf("("), programContent.indexOf(")"));
         return rawTitle.replace("(", "");
+    }
+
+    public ArrayList<Tool> getTools(){
+        ArrayList<Tool> tools = new ArrayList<>();
+        ArrayList<String> stringsFinded = new ArrayList<>();
+        Matcher m = Pattern.compile("^T[0-9]+.*$+", Pattern.MULTILINE).matcher(this.programContent);
+        while (m.find()) {
+
+            String finded = m.group();
+
+            if(!stringsFinded.contains(finded)){
+                stringsFinded.add(finded);
+                tools.add(new Tool(finded));
+
+            }
+        }
+
+        return tools;
     }
 }

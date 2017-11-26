@@ -57,11 +57,11 @@
                 <Button fx:id="archiveButton" onAction="#archiveProgram">Archivia</Button>
                 <Button fx:id="archiveAllButton" onAction="#archiveAllProgram">Archivia Tutto</Button>
             </FlowPane>
-            <TableView fx:id="infoTable">
+            <TableView fx:id="toolsTable">
                 <columns>
-                    <TableColumn fx:id="utNumber" text="Utensile">
+                    <TableColumn fx:id="toolsCodeColumn" text="Utensile" resizable="false">
                     </TableColumn>
-                    <TableColumn fx:id="utDescription" text="Descrizione">
+                    <TableColumn fx:id="toolsCommentColumn"  text="Descrizione" resizable="false">
                     </TableColumn>
                 </columns>
             </TableView>
@@ -71,6 +71,7 @@
     <bottom>
         <HBox spacing="10" fx:id="bottom">
             <Text>https://github.com/lucaforgia/fanucdir</Text>
+            <Text>V1.3.1</Text>
         </HBox>
     </bottom>
 
