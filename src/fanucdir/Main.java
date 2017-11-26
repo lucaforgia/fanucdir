@@ -118,6 +118,34 @@ public class Main extends Application {
         this.confirmDialog.show();
     }
 
+    public void showCopiedAllDialog(String filesError) throws Exception{
+
+        if(dialogAlreadyUsed){
+            this.confirmDialog.hide();
+        }else{
+            dialogAlreadyUsed = true;
+        }
+        Main app = this;
+        String question = "Files copiati con successo ";
+
+        if(!filesError.equals("")){
+            question = "Alcuni file non sono stati copiati correttamente: " + filesError;
+        }
+        this.confirmDialog = new Dialog(this.primaryStage, question){
+
+            @Override
+            public void okCallBack() {
+                this.hide();
+            }
+        };
+
+        this.confirmDialog.hideCancelButton();
+        this.confirmDialog.setOkCallBackButtonText("Ricevuto");
+
+        this.confirmDialog.show();
+    }
+
+
 
 
     public static void main(String[] args) {

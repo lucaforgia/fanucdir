@@ -10,6 +10,7 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.layout.FlowPane?>
 <BorderPane fx:controller="fanucdir.controller.MainSceneController"
             xmlns:fx="http://javafx.com/fxml" fx:id="mainPanel" styleClass="wrapping10">
 
@@ -44,23 +45,27 @@
         <VBox fx:id="centerPanel" >
             <HBox spacing="20" fx:id="center_header">
                 <Text fx:id="currentProgram"></Text>
-                <Button fx:id="deleteButton" onAction="#askIfDelete">Rimuovi File</Button>
-                <Button fx:id="copyButton" onAction="#copyProgram">Copia</Button>
-                <Button fx:id="archiveButton" onAction="#archiveProgram">Archivia</Button>
             </HBox>
             <TextArea VBox.vgrow="ALWAYS" fx:id="programText" ></TextArea>
         </VBox>
-
     </center>
     <right>
-        <TableView fx:id="infoTable">
-            <columns>
-                <TableColumn fx:id="utNumber" text="Utensile">
-                </TableColumn>
-                <TableColumn fx:id="utDescription" text="Descrizione">
-                </TableColumn>
-            </columns>
-        </TableView>
+        <VBox fx:id="bla" spacing="20">
+            <FlowPane orientation="HORIZONTAL" hgap="15" vgap="15">
+                <Button fx:id="deleteButton" onAction="#askIfDelete">Rimuovi File</Button>
+                <Button fx:id="copyButton" onAction="#copyProgram">Copia</Button>
+                <Button fx:id="archiveButton" onAction="#archiveProgram">Archivia</Button>
+                <Button fx:id="archiveAllButton" onAction="#archiveAllProgram">Archivia Tutto</Button>
+            </FlowPane>
+            <TableView fx:id="infoTable">
+                <columns>
+                    <TableColumn fx:id="utNumber" text="Utensile">
+                    </TableColumn>
+                    <TableColumn fx:id="utDescription" text="Descrizione">
+                    </TableColumn>
+                </columns>
+            </TableView>
+        </VBox>
     </right>
 
     <bottom>

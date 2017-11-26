@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class MainSceneController implements Initializable{
@@ -72,6 +73,9 @@ public class MainSceneController implements Initializable{
     private Button copyButton;
 
     @FXML
+    private Button archiveAllButton;
+
+    @FXML
     private Button archiveButton;
 
     @Override
@@ -103,6 +107,7 @@ public class MainSceneController implements Initializable{
         deleteButton.setVisible(false);
         copyButton.setVisible(false);
         archiveButton.setVisible(false);
+        archiveAllButton.setVisible(false);
         programsFolderSelected = showedCncProgramsManager.setFolderPath();
         currentFolder.setText(programsFolderSelected);
         showPrograms();
@@ -144,6 +149,7 @@ public class MainSceneController implements Initializable{
         if(ohYes){
             deleteButton.setVisible(true);
             copyButton.setVisible(isArchiveSelected);
+            archiveAllButton.setVisible(!isArchiveSelected);
             archiveButton.setVisible(!isArchiveSelected);
         }else{
             this.clearProgramText();
@@ -151,6 +157,7 @@ public class MainSceneController implements Initializable{
             deleteButton.setVisible(false);
             copyButton.setVisible(false);
             archiveButton.setVisible(false);
+            archiveAllButton.setVisible(false);
         }
 
     }
@@ -198,6 +205,23 @@ public class MainSceneController implements Initializable{
 
         app.showCopiedDialog(newFileName);
 
+    }
+
+    public void archiveAllProgram() throws Exception{
+        showedCncProgramsManager.reloadCncProgramList();
+
+        ArrayList<CncProgram> programList = showedCncProgramsManager.getCncProgramList();
+        int len = programList.size();
+        String filesError = "";
+
+        for(int i = 0; i < len; i++){
+            try{
+                archiveCncProgramsManager.copyProgram(programList.get(i), true);
+            }catch (Exception e){
+                filesError += "\n" + programList.get(i).getFileName();
+            }
+        }
+        app.showCopiedAllDialog(filesError);
     }
 
     public void archiveProgram() throws Exception{
