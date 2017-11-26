@@ -58,8 +58,13 @@ public class CncProgram {
 
 
     private String createProgramTitle(String programContent){
-        String rawTitle = programContent.substring(programContent.indexOf("("), programContent.indexOf(")"));
-        return rawTitle.replace("(", "");
+        String rawTitle = "";
+        try{
+            rawTitle = programContent.substring(programContent.indexOf("(")+1, programContent.indexOf(")"));
+        }catch (Exception e){
+            rawTitle = "UNDEFINED";
+        }
+        return rawTitle;
     }
 
     public ArrayList<Tool> getTools(){
