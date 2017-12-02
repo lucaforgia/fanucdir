@@ -9,10 +9,10 @@
 - delete function
 
 ## V1.1.0
-- bottone archivia tutto
-- se gia archiviato aggiungere un commento seconda linea o prima linea, quando si fa copia. Meglio linea separata cosi facile da togliere
-- aggiungere filecontent al cncprogram e rimuovere continue letture
-- aggiungere data
-- rimuovere tag limite
-
-- tag per particolari azioni, tipo archiviare o copiare senza cambiare il nome del file
+- tag per sovrascrivere gia archiviato
+- tag per archiviare senza cambiare nome, quindi in sottocartella o similia (nel caso sia gia presente)
+- next program number per programmi "fissi". quindi avere un bottone per quello
+- quindi essere in grado di leggere sottocartelle, quindi nuovo modo di gestire i file
+- creare calc sheet
+- lista tag usabili
+- conta programmi

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class CncProgramsManager {
 
@@ -25,6 +26,7 @@ public class CncProgramsManager {
     public final static int MAX_LINES_SHOWED = 300;
     public final static int CHAR_FOR_LINE = 15;
     public final static int MAX_CHAR_SHOWED = CncProgramsManager.MAX_LINES_SHOWED * CncProgramsManager.CHAR_FOR_LINE;
+
 
     public static final List<Integer> PROGRAM_NUMBERS_NOT_AVAILABLE = Collections.unmodifiableList(Arrays.asList(0,1,54));
 
@@ -69,6 +71,13 @@ public class CncProgramsManager {
 
         ArrayList<CncProgram> filteredList = new ArrayList<>();
         cncProgramList.forEach(program -> {if(searchProgramTitle(program.getProgramTitle().toLowerCase(), words)){ filteredList.add(program); }});
+        return filteredList;
+    }
+
+    private ArrayList<CncProgram> findByTitle(String programTitle){
+
+        ArrayList<CncProgram> filteredList = new ArrayList<>();
+        cncProgramList.forEach(program -> {if(program.getProgramTitle().equals(programTitle)){ filteredList.add(program); }});
         return filteredList;
     }
 
@@ -187,6 +196,11 @@ public class CncProgramsManager {
         programSelected.getProgramFile().delete();
     }
 
+    public void deletePrograms(ArrayList<CncProgram> programs){
+        programs.forEach(program -> deleteProgram(program));
+    }
+
+
     public String copyProgram(CncProgram program, boolean addDate) throws Exception{
 
         Charset charset = StandardCharsets.UTF_8;
@@ -200,8 +214,15 @@ public class CncProgramsManager {
         String content = program.getProgramContent().replaceAll(program.getFileName(), newFileName);
         if(addDate){
             LocalDateTime date = LocalDateTime.now();
-            String fomattedDate = date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL));
-            content = content.replaceFirst("[)]", ")\n(" + fomattedDate + ")");
+            String formattedDate = date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL));
+            content = content.replaceFirst("[)]", ")\n(" + formattedDate + ")");
+        }
+
+        if(program.getReplaceIfExist()){
+            ArrayList<CncProgram> oldPrograms = this.findByTitle(program.getProgramTitle());
+            this.deletePrograms(oldPrograms);
+
+            content = content.replaceAll(Pattern.quote(CncProgram.OVERWRITE_TAG), "");
         }
 
         Files.write(newFile.toPath(), content.getBytes(charset));

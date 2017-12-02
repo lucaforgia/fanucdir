@@ -71,7 +71,7 @@
     <bottom>
         <HBox spacing="10" fx:id="bottom">
             <Text>https://github.com/lucaforgia/fanucdir</Text>
-            <Text>V1.3.1</Text>
+            <Text>V1.3.2</Text>
         </HBox>
     </bottom>
 
