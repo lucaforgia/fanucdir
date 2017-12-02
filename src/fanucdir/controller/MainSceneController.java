@@ -86,6 +86,9 @@ public class MainSceneController implements Initializable{
     @FXML
     private TableColumn<Tool, String> toolsCommentColumn;
 
+    @FXML
+    private Text programsQtText;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
@@ -201,6 +204,8 @@ public class MainSceneController implements Initializable{
         else{
             showedCncProgramsManager.getCncProgramList().forEach(program -> cncProgramObservableList.add(program));
         }
+
+        programsQtText.setText("" + cncProgramObservableList.size());
 
         showProgramTextButtons(false);
     }

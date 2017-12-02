@@ -32,14 +32,21 @@
         </VBox>
     </top>
     <left>
-        <TableView fx:id="programTable" prefWidth="300">
-            <columns>
-                <TableColumn prefWidth="200" resizable="false" fx:id="programTitleColumn" text="Programma">
-                </TableColumn>
-                <TableColumn prefWidth="99" fx:id="fileNameColumn" text="File">
-                </TableColumn>
-            </columns>
-        </TableView>
+        <VBox prefWidth="320" spacing="10">
+            <HBox spacing="15">
+                <Text>PROGRAMMI TROVATI:</Text>
+                <Text fx:id="programsQtText">0</Text>
+            </HBox>
+            <TableView fx:id="programTable" prefWidth="300" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn prefWidth="220" resizable="false" fx:id="programTitleColumn" text="Programma">
+                    </TableColumn>
+                    <TableColumn prefWidth="80" fx:id="fileNameColumn" resizable="false" text="File">
+                    </TableColumn>
+                </columns>
+            </TableView>
+
+        </VBox>
     </left>
     <center>
         <VBox fx:id="centerPanel" >
