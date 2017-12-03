@@ -7,9 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/fanucdir/CncProgramsManager.java" afterPath="$PROJECT_DIR$/src/fanucdir/CncProgramsManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/fanucdir/Main.java" afterPath="$PROJECT_DIR$/src/fanucdir/Main.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/fanucdir/view/mainScene.fxml" afterPath="$PROJECT_DIR$/src/fanucdir/view/mainScene.fxml" />
     </list>
     <ignored path="JavaFxApplication.iws" />
@@ -79,8 +77,8 @@
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="277">
-              <caret line="83" column="36" lean-forward="true" selection-start-line="83" selection-start-column="36" selection-end-line="83" selection-end-column="36" />
+            <state relative-caret-position="377">
+              <caret line="91" column="42" lean-forward="true" selection-start-line="91" selection-start-column="42" selection-end-line="91" selection-end-column="42" />
               <folding />
             </state>
           </provider>
@@ -140,14 +138,16 @@
       <file leaf-file-name="CncProgramsManager.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/fanucdir/CncProgramsManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="172">
-              <caret line="67" column="93" lean-forward="false" selection-start-line="67" selection-start-column="93" selection-end-line="67" selection-end-column="93" />
+            <state relative-caret-position="322">
+              <caret line="87" column="93" lean-forward="false" selection-start-line="87" selection-start-column="93" selection-end-line="87" selection-end-column="93" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2442#2443#0" expanded="true" />
                 <element signature="e#2505#2506#0" expanded="true" />
-                <element signature="e#7101#7102#0" expanded="true" />
-                <element signature="e#7168#7169#0" expanded="true" />
+                <element signature="e#2557#2558#0" expanded="true" />
+                <element signature="e#2600#2601#0" expanded="true" />
+                <element signature="e#7310#7311#0" expanded="true" />
+                <element signature="e#7377#7378#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -974,14 +974,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/fanucdir/CncProgramsManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="172">
-          <caret line="67" column="93" lean-forward="false" selection-start-line="67" selection-start-column="93" selection-end-line="67" selection-end-column="93" />
+        <state relative-caret-position="322">
+          <caret line="87" column="93" lean-forward="false" selection-start-line="87" selection-start-column="93" selection-end-line="87" selection-end-column="93" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2442#2443#0" expanded="true" />
             <element signature="e#2505#2506#0" expanded="true" />
-            <element signature="e#7101#7102#0" expanded="true" />
-            <element signature="e#7168#7169#0" expanded="true" />
+            <element signature="e#2557#2558#0" expanded="true" />
+            <element signature="e#2600#2601#0" expanded="true" />
+            <element signature="e#7310#7311#0" expanded="true" />
+            <element signature="e#7377#7378#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -991,8 +993,8 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
-          <caret line="83" column="36" lean-forward="true" selection-start-line="83" selection-start-column="36" selection-end-line="83" selection-end-column="36" />
+        <state relative-caret-position="377">
+          <caret line="91" column="42" lean-forward="true" selection-start-line="91" selection-start-column="42" selection-end-line="91" selection-end-column="42" />
           <folding />
         </state>
       </provider>

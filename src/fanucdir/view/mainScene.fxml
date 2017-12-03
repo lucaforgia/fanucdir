@@ -79,6 +79,7 @@
             <ListView VBox.vgrow="NEVER">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="startWith(O) file search"/>
                         <String fx:value="[inner search]"/>
                         <String fx:value="--OVERWRITE--"/>
                     </FXCollections>

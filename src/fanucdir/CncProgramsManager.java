@@ -73,17 +73,21 @@ public class CncProgramsManager {
         return text.contains("[") && text.contains("]");
     }
 
+    private boolean isFileNameSearch(String text){
+        return text.startsWith("O");
+    }
+
     public ArrayList<CncProgram> filterPrograms(String textToSearch){
 
         String normalizedText = normalizeTextToSearch(textToSearch);
         ArrayList<CncProgram> filteredList = new ArrayList<>();
 
         if(isInnerSearch(textToSearch)){
-
-            Main.log("entra inner");
-            Main.log(normalizedText);
             cncProgramList.forEach(program -> {if(program.getProgramContent().contains(normalizedText)){ filteredList.add(program); }});
-        }else{
+        }else if(isFileNameSearch(normalizedText)){
+            cncProgramList.forEach(program -> {if(program.getFileName().equals(normalizedText)){ filteredList.add(program); }});
+        }
+        else{
             ArrayList<String> words = new ArrayList<>(Arrays.asList(normalizedText.split(" ")));
             cncProgramList.forEach(program -> {if(searchProgramTitle(program.getProgramTitle(), words)){ filteredList.add(program); }});
         }
