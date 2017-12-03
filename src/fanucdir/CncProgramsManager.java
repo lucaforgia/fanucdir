@@ -64,13 +64,32 @@ public class CncProgramsManager {
         return isInside;
     }
 
+    private String normalizeTextToSearch(String textToSearch){
+        String normalizedText = textToSearch.toUpperCase().replaceAll("\\[", "").replaceAll("]","");
+        return normalizedText;
+    }
+
+    private boolean isInnerSearch(String text){
+        return text.contains("[") && text.contains("]");
+    }
+
     public ArrayList<CncProgram> filterPrograms(String textToSearch){
-        String normalizedText = textToSearch.toLowerCase();
 
-        ArrayList<String> words = new ArrayList<>(Arrays.asList(normalizedText.split(" ")));
-
+        String normalizedText = normalizeTextToSearch(textToSearch);
         ArrayList<CncProgram> filteredList = new ArrayList<>();
-        cncProgramList.forEach(program -> {if(searchProgramTitle(program.getProgramTitle().toLowerCase(), words)){ filteredList.add(program); }});
+
+        if(isInnerSearch(textToSearch)){
+
+            Main.log("entra inner");
+            Main.log(normalizedText);
+            cncProgramList.forEach(program -> {if(program.getProgramContent().contains(normalizedText)){ filteredList.add(program); }});
+        }else{
+            ArrayList<String> words = new ArrayList<>(Arrays.asList(normalizedText.split(" ")));
+            cncProgramList.forEach(program -> {if(searchProgramTitle(program.getProgramTitle(), words)){ filteredList.add(program); }});
+        }
+
+
+
         return filteredList;
     }
 

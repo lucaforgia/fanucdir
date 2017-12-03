@@ -146,7 +146,9 @@ public class Main extends Application {
     }
 
 
-
+    public static void log(String text){
+        System.out.println(text);
+    }
 
     public static void main(String[] args) {
         launch(args);

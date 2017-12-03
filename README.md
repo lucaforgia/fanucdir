@@ -9,10 +9,10 @@
 - delete function
 
 ## V1.1.0
-- tag per sovrascrivere gia archiviato
 - tag per archiviare senza cambiare nome, quindi in sottocartella o similia (nel caso sia gia presente)
 - next program number per programmi "fissi". quindi avere un bottone per quello
 - quindi essere in grado di leggere sottocartelle, quindi nuovo modo di gestire i file
 - creare calc sheet
 - lista tag usabili
-- conta programmi
+- search inner content
+- search file nam

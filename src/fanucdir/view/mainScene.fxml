@@ -11,6 +11,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
 <BorderPane fx:controller="fanucdir.controller.MainSceneController"
             xmlns:fx="http://javafx.com/fxml" fx:id="mainPanel" styleClass="wrapping10">
 
@@ -72,6 +75,15 @@
                     </TableColumn>
                 </columns>
             </TableView>
+
+            <ListView VBox.vgrow="NEVER">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="[inner search]"/>
+                        <String fx:value="--OVERWRITE--"/>
+                    </FXCollections>
+                </items>
+            </ListView>
         </VBox>
     </right>
 

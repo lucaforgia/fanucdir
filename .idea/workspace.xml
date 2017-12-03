@@ -7,7 +7,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/fanucdir/controller/MainSceneController.java" afterPath="$PROJECT_DIR$/src/fanucdir/controller/MainSceneController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/fanucdir/CncProgramsManager.java" afterPath="$PROJECT_DIR$/src/fanucdir/CncProgramsManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/fanucdir/Main.java" afterPath="$PROJECT_DIR$/src/fanucdir/Main.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/fanucdir/view/mainScene.fxml" afterPath="$PROJECT_DIR$/src/fanucdir/view/mainScene.fxml" />
     </list>
     <ignored path="JavaFxApplication.iws" />
@@ -77,8 +79,8 @@
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="275">
-              <caret line="35" column="29" lean-forward="false" selection-start-line="35" selection-start-column="29" selection-end-line="35" selection-end-column="29" />
+            <state relative-caret-position="277">
+              <caret line="83" column="36" lean-forward="true" selection-start-line="83" selection-start-column="36" selection-end-line="83" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -87,10 +89,12 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/fanucdir/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3050">
-              <caret line="131" column="89" lean-forward="false" selection-start-line="131" selection-start-column="89" selection-end-line="131" selection-end-column="89" />
+            <state relative-caret-position="340">
+              <caret line="149" column="31" lean-forward="false" selection-start-line="149" selection-start-column="31" selection-end-line="149" selection-end-column="31" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#4474#4475#0" expanded="true" />
+                <element signature="e#4514#4515#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -113,8 +117,8 @@
       <file leaf-file-name="MainSceneController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/fanucdir/controller/MainSceneController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="206" column="0" lean-forward="true" selection-start-line="206" selection-start-column="0" selection-end-line="206" selection-end-column="0" />
+            <state relative-caret-position="172">
+              <caret line="214" column="26" lean-forward="false" selection-start-line="214" selection-start-column="25" selection-end-line="214" selection-end-column="26" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <marker date="1512226557728" expanded="true" signature="2895:3078" ph="..." />
@@ -136,12 +140,14 @@
       <file leaf-file-name="CncProgramsManager.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/fanucdir/CncProgramsManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="525">
-              <caret line="224" column="80" lean-forward="false" selection-start-line="224" selection-start-column="80" selection-end-line="224" selection-end-column="80" />
+            <state relative-caret-position="172">
+              <caret line="67" column="93" lean-forward="false" selection-start-line="67" selection-start-column="93" selection-end-line="67" selection-end-column="93" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#6502#6503#0" expanded="true" />
-                <element signature="e#6569#6570#0" expanded="true" />
+                <element signature="e#2442#2443#0" expanded="true" />
+                <element signature="e#2505#2506#0" expanded="true" />
+                <element signature="e#7101#7102#0" expanded="true" />
+                <element signature="e#7168#7169#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -150,8 +156,8 @@
       <file leaf-file-name="CncProgram.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/fanucdir/model/CncProgram.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="22" column="10" lean-forward="false" selection-start-line="22" selection-start-column="10" selection-end-line="22" selection-end-column="10" />
+            <state relative-caret-position="172">
+              <caret line="19" column="15" lean-forward="false" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="15" />
               <folding />
             </state>
           </provider>
@@ -186,8 +192,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>createProgramTitle</find>
-      <find>selectProgram</find>
       <find>filePathSelected</find>
       <find>getFileSelectedName</find>
       <find>copyProgram</find>
@@ -216,6 +220,8 @@
       <find>program</find>
       <find>sub</find>
       <find>substring</find>
+      <find>lower</find>
+      <find>filter</find>
     </findStrings>
   </component>
   <component name="FindManager">
@@ -255,12 +261,12 @@
         <option value="$PROJECT_DIR$/src/style.css" />
         <option value="$PROJECT_DIR$/src/fanucdir/controller/DialogController.java" />
         <option value="$PROJECT_DIR$/src/fanucdir/Dialog.java" />
-        <option value="$PROJECT_DIR$/src/fanucdir/Main.java" />
         <option value="$PROJECT_DIR$/src/fanucdir/model/CncProgram.kt" />
         <option value="$PROJECT_DIR$/src/fanucdir/model/Tool.java" />
         <option value="$PROJECT_DIR$/src/fanucdir/model/CncProgram.java" />
-        <option value="$PROJECT_DIR$/src/fanucdir/CncProgramsManager.java" />
         <option value="$PROJECT_DIR$/src/fanucdir/controller/MainSceneController.java" />
+        <option value="$PROJECT_DIR$/src/fanucdir/Main.java" />
+        <option value="$PROJECT_DIR$/src/fanucdir/CncProgramsManager.java" />
         <option value="$PROJECT_DIR$/src/fanucdir/view/mainScene.fxml" />
       </list>
     </option>
@@ -603,17 +609,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/fanucdir/view/mainScene.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="7" column="11" lean-forward="false" selection-start-line="7" selection-start-column="11" selection-end-line="7" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/fanucdir/controller/MainSceneController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="100">
@@ -631,6 +626,8 @@
           <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#4474#4475#0" expanded="true" />
+            <element signature="e#4514#4515#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -895,16 +892,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/fanucdir/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3050">
-          <caret line="131" column="89" lean-forward="false" selection-start-line="131" selection-start-column="89" selection-end-line="131" selection-end-column="89" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_73/src.zip!/java/util/regex/Matcher.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2">
@@ -946,33 +933,55 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/fanucdir/model/CncProgram.java">
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_73/javafx-src.zip!/javafx/scene/control/ListView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="22" column="10" lean-forward="false" selection-start-line="22" selection-start-column="10" selection-end-line="22" selection-end-column="10" />
+        <state relative-caret-position="-676">
+          <caret line="230" column="13" lean-forward="false" selection-start-line="230" selection-start-column="13" selection-end-line="230" selection-end-column="21" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/fanucdir/CncProgramsManager.java">
+    <entry file="file://$PROJECT_DIR$/src/fanucdir/model/CncProgram.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="224" column="80" lean-forward="false" selection-start-line="224" selection-start-column="80" selection-end-line="224" selection-end-column="80" />
+        <state relative-caret-position="172">
+          <caret line="19" column="15" lean-forward="false" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/fanucdir/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="149" column="31" lean-forward="false" selection-start-line="149" selection-start-column="31" selection-end-line="149" selection-end-column="31" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#6502#6503#0" expanded="true" />
-            <element signature="e#6569#6570#0" expanded="true" />
+            <element signature="e#4474#4475#0" expanded="true" />
+            <element signature="e#4514#4515#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/fanucdir/controller/MainSceneController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="206" column="0" lean-forward="true" selection-start-line="206" selection-start-column="0" selection-end-line="206" selection-end-column="0" />
+        <state relative-caret-position="172">
+          <caret line="214" column="26" lean-forward="false" selection-start-line="214" selection-start-column="25" selection-end-line="214" selection-end-column="26" />
           <folding>
             <element signature="imports" expanded="true" />
             <marker date="1512226557728" expanded="true" signature="2895:3078" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/fanucdir/CncProgramsManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="172">
+          <caret line="67" column="93" lean-forward="false" selection-start-line="67" selection-start-column="93" selection-end-line="67" selection-end-column="93" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2442#2443#0" expanded="true" />
+            <element signature="e#2505#2506#0" expanded="true" />
+            <element signature="e#7101#7102#0" expanded="true" />
+            <element signature="e#7168#7169#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -982,8 +991,8 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="35" column="29" lean-forward="false" selection-start-line="35" selection-start-column="29" selection-end-line="35" selection-end-column="29" />
+        <state relative-caret-position="277">
+          <caret line="83" column="36" lean-forward="true" selection-start-line="83" selection-start-column="36" selection-end-line="83" selection-end-column="36" />
           <folding />
         </state>
       </provider>
