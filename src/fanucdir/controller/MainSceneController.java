@@ -22,6 +22,7 @@ import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.URL;
+import java.nio.file.FileAlreadyExistsException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -36,6 +37,8 @@ public class MainSceneController implements Initializable{
     private Main app;
     private String programsFolderSelected;
     private CncProgram programSelected;
+    private String nextFreeFileNameInfoText;
+    private String nextFreeFixedFileNameInfoText;
 
 
     @FXML
@@ -89,6 +92,8 @@ public class MainSceneController implements Initializable{
     @FXML
     private Text programsQtText;
 
+    @FXML
+    private ObservableList<String> infoObsArrayList;
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
@@ -122,7 +127,6 @@ public class MainSceneController implements Initializable{
         programsFolderSelected = showedCncProgramsManager.setFolderPath();
         currentFolder.setText(programsFolderSelected);
         showPrograms();
-
 
 //        centerPanel.setMaxWidth(100);
 
@@ -173,7 +177,6 @@ public class MainSceneController implements Initializable{
         if(ohYes){
             deleteButton.setVisible(true);
             copyButton.setVisible(isArchiveSelected);
-            archiveAllButton.setVisible(!isArchiveSelected);
             archiveButton.setVisible(!isArchiveSelected);
         }else{
             this.clearProgramText();
@@ -181,8 +184,8 @@ public class MainSceneController implements Initializable{
             deleteButton.setVisible(false);
             copyButton.setVisible(false);
             archiveButton.setVisible(false);
-            archiveAllButton.setVisible(false);
         }
+        archiveAllButton.setVisible(!isArchiveSelected);
 
     }
 
@@ -208,6 +211,7 @@ public class MainSceneController implements Initializable{
         programsQtText.setText("" + cncProgramObservableList.size());
 
         showProgramTextButtons(false);
+        setNextFreeFileNameInfo();
     }
 
     public void askIfDelete() throws Exception{
@@ -225,11 +229,34 @@ public class MainSceneController implements Initializable{
         CncProgramsManager copyFolderCncProgramsManager = new CncProgramsManager();
         copyFolderCncProgramsManager.setFolderPath(newPath);
 
-        String newFileName = copyFolderCncProgramsManager.copyProgram(this.programSelected, false);
+        String newFileName;
+
+        try{
+            newFileName = copyFolderCncProgramsManager.copyProgram(this.programSelected, false);
+            app.showCopiedDialog(newFileName);
+        }catch (FileAlreadyExistsException e){
+            app.showAlreadyExistDialog(copyFolderCncProgramsManager);
+        }catch (Exception e){
+            throw new Exception(e);
+        }
 
         System.out.println("copiato");
 
-        app.showCopiedDialog(newFileName);
+
+
+    }
+
+    private void setNextFreeFileNameInfo(){
+        String nextFileName = this.showedCncProgramsManager.getNextFreeFileName();
+        infoObsArrayList.remove(nextFreeFileNameInfoText);
+        nextFreeFileNameInfoText = "next free file name: " + nextFileName;
+        infoObsArrayList.add(nextFreeFileNameInfoText);
+
+        String nextFixedFileName = this.showedCncProgramsManager.getNextFreeFixedFileName();
+        Main.log(nextFixedFileName);
+        infoObsArrayList.remove(nextFreeFixedFileNameInfoText);
+        nextFreeFixedFileNameInfoText = "next free fixed file name: " + nextFixedFileName;
+        infoObsArrayList.add(nextFreeFixedFileNameInfoText);
 
     }
 
@@ -249,16 +276,39 @@ public class MainSceneController implements Initializable{
         }
         app.showCopiedAllDialog(filesError);
     }
+    public void deleteFileFromManager(CncProgramsManager programManagerWithFile){
+        Main.log("delete da file manager");
+        programManagerWithFile.deleteProgram(this.programSelected.getFileName());
+    }
+    public void copyToProgramsManager(CncProgramsManager programsManager) throws Exception{
+
+//        programsManager.copyProgram(this.programSelected, false);
+        String newFileName;
+        if(programsManager == archiveCncProgramsManager){
+            newFileName = programsManager.copyProgram(this.programSelected, true);
+            app.showArchiveDialog(newFileName);
+        }else{
+            newFileName = programsManager.copyProgram(this.programSelected, false);
+            app.showCopiedDialog(newFileName);
+        }
+    }
 
     public void archiveProgram() throws Exception{
-       String newFileName = archiveCncProgramsManager.copyProgram(this.programSelected, true);
-       app.showArchiveDialog(newFileName);
+        try{
+            String newFileName = archiveCncProgramsManager.copyProgram(this.programSelected, true);
+            app.showArchiveDialog(newFileName);
+        }catch (FileAlreadyExistsException e){
+            app.showAlreadyExistDialog(archiveCncProgramsManager);
+        }catch (Exception e){
+            throw new Exception(e);
+        }
     }
 
     public void deleteProgramSelected(){
         this.showedCncProgramsManager.deleteProgram(this.programSelected);
         this.reloadFolder();
         showProgramTextButtons(false);
+        setNextFreeFileNameInfo();
     }
 
     public void searchProgramsForName(){

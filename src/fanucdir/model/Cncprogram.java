@@ -45,6 +45,23 @@ public class CncProgram {
         }
     }
 
+    public void setProgramFile(File newFile){
+        this.programFile = newFile;
+    }
+
+    public void update(File programFile, String content){
+        try{
+            this.fileName = new SimpleStringProperty(programFile.getName().toString());
+            this.programTitle = new SimpleStringProperty(this.createProgramTitle(content));
+            this.programFile = programFile;
+            this.programContent = content;
+            this.replaceIfExist = this.programContent.contains(CncProgram.OVERWRITE_TAG);
+
+        }catch (Exception ex){
+            System.out.print("cazzo");
+        }
+    }
+
     public String getFileName(){
         return this.fileName.get();
     }

@@ -46,6 +46,15 @@ public class Main extends Application {
 //        this.cancelDialogStage.hide();
     }
 
+    public void copyToProgramsManager(CncProgramsManager programManager) throws Exception{
+        this.mainController.copyToProgramsManager(programManager);
+//        this.cancelDialogStage.hide();
+    }
+
+    public void deleteFileFromManager(CncProgramsManager programManagerWithFile){
+        this.mainController.deleteFileFromManager(programManagerWithFile);
+    }
+
     public void showRemoveDialog() throws Exception{
 //        this.cancelDialogStage.show();
 
@@ -145,6 +154,33 @@ public class Main extends Application {
         this.confirmDialog.show();
     }
 
+
+    public void showAlreadyExistDialog(CncProgramsManager programManagerWithFile) throws Exception{
+//        this.cancelDialogStage.show();
+
+        if(dialogAlreadyUsed){
+            this.confirmDialog.hide();
+        }else{
+            dialogAlreadyUsed = true;
+        }
+        Main app = this;
+        String selectedFileName = this.mainController.getFileSelectedName();
+        String question = "Il file " + selectedFileName + " esiste già.";
+        this.confirmDialog = new Dialog(this.primaryStage, question){
+
+            @Override
+            public void okCallBack() throws Exception{
+                app.deleteFileFromManager(programManagerWithFile);
+                app.copyToProgramsManager(programManagerWithFile);
+                this.hide();
+            }
+        };
+
+        this.confirmDialog.setCancelCallBackButtonText("Annulla");
+        this.confirmDialog.setOkCallBackButtonText("Sovrascrivi");
+
+        this.confirmDialog.show();
+    }
 
     public static void log(String text){
         System.out.println(text);

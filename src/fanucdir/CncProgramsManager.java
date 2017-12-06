@@ -5,6 +5,7 @@ import fanucdir.model.CncProgram;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
@@ -21,8 +22,10 @@ public class CncProgramsManager {
     private ArrayList<CncProgram> cncProgramList = new ArrayList<>();
     private String folderPath;
     public final static String ARCHIVE_PATH = Paths.get(System.getProperty("user.dir"),"cnc_programs").toString();
-    private final static int MAX_PROGRAMS_NUMBER = 8999;
+    private final static int MAX_PROGRAMS_NUMBER = 7999;
     private final static int MIN_PROGRAMS_NUMBER = 101;
+    private final static int MIN_FIXED_PROGRAMS_NUMBER = 8000;
+    private final static int MAX_FIXED_PROGRAMS_NUMBER = 8999;
     public final static int MAX_LINES_SHOWED = 300;
     public final static int CHAR_FOR_LINE = 15;
     public final static int MAX_CHAR_SHOWED = CncProgramsManager.MAX_LINES_SHOWED * CncProgramsManager.CHAR_FOR_LINE;
@@ -32,23 +35,6 @@ public class CncProgramsManager {
 
     public ArrayList<CncProgram> getCncProgramList() {
         return cncProgramList;
-    }
-
-    public File getProgram(String fileName){
-
-       File fileToReturn  = cncProgramList.get(0).getProgramFile();
-//       cncProgramList.forEach(program -> {if(program.getFileName() == fileName){ return program.getProgramFile(); }});
-
-        int size = cncProgramList.size();
-
-        for(int i = 0; i < size; i++){
-            CncProgram temp = cncProgramList.get(i);
-            if(temp.getFileName().equals(fileName)){
-                fileToReturn = temp.getProgramFile();
-                break;
-            }
-        }
-        return fileToReturn;
     }
 
     private boolean searchProgramTitle(String programTitle, ArrayList<String> words){
@@ -186,6 +172,7 @@ public class CncProgramsManager {
     }
 
     private int getNextFreeProgramNumber(){
+
         int size = cncProgramList.size();
         int freeNextProgramNumber = 0;
 
@@ -197,7 +184,6 @@ public class CncProgramsManager {
             numberList.add(currentProgramNumber);
         }
 
-
         for(int ii = CncProgramsManager.MIN_PROGRAMS_NUMBER; ii < CncProgramsManager.MAX_PROGRAMS_NUMBER; ii++){
             int nextProgramNumber = ii;
             if(!numberList.contains(nextProgramNumber) && !CncProgramsManager.PROGRAM_NUMBERS_NOT_AVAILABLE.contains(ii)){
@@ -206,12 +192,54 @@ public class CncProgramsManager {
             }
         }
 
+
         return freeNextProgramNumber;
     }
 
+    private int getNextFreeFixedProgramNumber(){
+
+        int size = cncProgramList.size();
+        int freeNextProgramNumber = 0;
+
+        ArrayList<Integer> numberList = new ArrayList<>();
+
+        for(int i = 0; i < size; i++){
+            int currentProgramNumber = 0;
+            currentProgramNumber = convertFromFileNameToInt(cncProgramList.get(i).getFileName());
+            numberList.add(currentProgramNumber);
+        }
+
+        for(int ii = CncProgramsManager.MIN_FIXED_PROGRAMS_NUMBER; ii < CncProgramsManager.MAX_FIXED_PROGRAMS_NUMBER; ii++){
+            int nextProgramNumber = ii;
+            if(!numberList.contains(nextProgramNumber) && !CncProgramsManager.PROGRAM_NUMBERS_NOT_AVAILABLE.contains(ii)){
+                freeNextProgramNumber = nextProgramNumber;
+                break;
+            }
+        }
+
+
+        return freeNextProgramNumber;
+    }
+
+    private boolean fileAlreadyExist(String fileName){
+        int size = cncProgramList.size();
+        boolean alreadyExist = false;
+
+        for(int i = 0; i < size; i++){
+            if(cncProgramList.get(i).getFileName().equals(fileName)){
+                alreadyExist = true;
+                break;
+            }
+        }
+        return alreadyExist;
+    }
 
     public String getNextFreeFileName(){
         return convertFromFileNumberToFileName(getNextFreeProgramNumber());
+    }
+
+    public String getNextFreeFixedFileName(){
+        return convertFromFileNumberToFileName(getNextFreeFixedProgramNumber());
     }
 
     public void deleteProgram(CncProgram programSelected){
@@ -219,16 +247,38 @@ public class CncProgramsManager {
         programSelected.getProgramFile().delete();
     }
 
+    public void deleteProgram(String fileName){
+        ArrayList<CncProgram> programs = filterPrograms(fileName);
+        if(programs.size() == 1){
+            CncProgram program = programs.get(0);
+            this.removeProgramFromList(program);
+            program.getProgramFile().delete();
+        }
+    }
+
     public void deletePrograms(ArrayList<CncProgram> programs){
         programs.forEach(program -> deleteProgram(program));
     }
 
-
     public String copyProgram(CncProgram program, boolean addDate) throws Exception{
-
+        String newFileName;
         Charset charset = StandardCharsets.UTF_8;
+        String toCopyFileName = program.getFileName();
+        int toCopyFileNumber = convertFromFileNameToInt(toCopyFileName);
 
-        String newFileName = this.getNextFreeFileName();
+        if(toCopyFileNumber >= CncProgramsManager.MIN_FIXED_PROGRAMS_NUMBER && toCopyFileNumber <= CncProgramsManager.MAX_FIXED_PROGRAMS_NUMBER){
+            if(fileAlreadyExist(toCopyFileName)){
+                throw new FileAlreadyExistsException(toCopyFileName);
+
+            }else{
+                newFileName = toCopyFileName;
+            }
+        }else{
+            newFileName = this.getNextFreeFileName();
+        }
+
+        Main.log(program.getFileName());
+
 
         String newFilePath = Paths.get( this.folderPath ,newFileName).toString();
 

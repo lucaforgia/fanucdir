@@ -7,12 +7,11 @@
 - copy to other location
 - user unaware file name process, you don't need to worry about the file name
 - delete function
+- archive all
+- search file name, title, or content
+- list tools used in the program
+- add comment date when archive
 
-## V1.1.0
-- tag per archiviare senza cambiare nome, quindi in sottocartella o similia (nel caso sia gia presente)
-- next program number per programmi "fissi". quindi avere un bottone per quello
-- quindi essere in grado di leggere sottocartelle, quindi nuovo modo di gestire i file
-- creare calc sheet
-- lista tag usabili
-- search inner content
-- search file nam
+##Manca
+
+- creare calc sheet o xml
