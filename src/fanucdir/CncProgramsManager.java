@@ -40,14 +40,19 @@ public class CncProgramsManager {
     private boolean searchProgramTitle(String programTitle, ArrayList<String> words){
         boolean isInside = true;
         int wordsLen = words.size();
+        String normalizedTitle = normalizeTitleForSearch(programTitle);
         for(int i = 0; i < wordsLen; i++){
-            if(!programTitle.contains(words.get(i).toString())){
+            if(!normalizedTitle.contains(words.get(i).toString())){
                 isInside = false;
                 break;
             }
         }
 
         return isInside;
+    }
+
+    private String normalizeTitleForSearch(String programTitle){
+        return programTitle.replaceAll("[.-/]","");
     }
 
     private String normalizeTextToSearch(String textToSearch){

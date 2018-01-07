@@ -15,3 +15,6 @@
 ##Manca
 
 - creare calc sheet o xml
+- remove dot from search title and stuff
+- remove move to removed folder and dont remove really
+- history dei file usati, archiviati, copiati, rimossi.
