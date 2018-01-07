@@ -1,14 +1,20 @@
 package fanucdir.controller;
 
 import fanucdir.Dialog;
+import fanucdir.Main;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 
+import java.net.URL;
+import java.util.ResourceBundle;
 
 
-public class DialogController {
+public class DialogController implements Initializable{
 
     private Dialog dialogOwner;
 
@@ -23,6 +29,23 @@ public class DialogController {
 
     @FXML
     private Button okCallBackButton;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+    }
+
+    public void dialogOnKeyPressed(KeyEvent event){
+        Main.log("cacca");
+        if(event.getCode() == KeyCode.ESCAPE) {
+            cancelCallBackButton.fire();
+            event.consume();
+        }
+        if(event.getCode() == KeyCode.ENTER) {
+            okCallBackButton.fire();
+            event.consume();
+        }
+    }
 
     public void okCallBack() throws Exception{
         this.dialogOwner.okCallBack();

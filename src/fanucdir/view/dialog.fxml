@@ -11,7 +11,7 @@
             fx:controller="fanucdir.controller.DialogController"
 >
 
-    <VBox prefWidth="300" alignment="BOTTOM_CENTER" spacing="15">
+    <VBox prefWidth="300" onKeyPressed="#dialogOnKeyPressed" alignment="BOTTOM_CENTER" spacing="15">
 
         <BorderPane styleClass="dialogAskBox">
             <center>
@@ -20,7 +20,7 @@
         </BorderPane>
         <TextField fx:id="textEntry"></TextField>
         <HBox styleClass="dialogBox" prefWidth="200" alignment="CENTER" spacing="50">
-            <Button onAction="#cancelCallBack" fx:id="cancelCallBackButton"></Button>
+            <Button onAction="#cancelCallBack"  fx:id="cancelCallBackButton"></Button>
             <Button onAction="#okCallBack" fx:id="okCallBackButton"></Button>
         </HBox>
     </VBox>
