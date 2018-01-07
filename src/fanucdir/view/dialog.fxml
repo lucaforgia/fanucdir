@@ -20,7 +20,7 @@
         </BorderPane>
         <TextField fx:id="textEntry"></TextField>
         <HBox styleClass="dialogBox" prefWidth="200" alignment="CENTER" spacing="50">
-            <Button onAction="#cancelCallBack"  fx:id="cancelCallBackButton"></Button>
+            <Button onAction="#cancelCallBack" focusTraversable="false" fx:id="cancelCallBackButton"></Button>
             <Button onAction="#okCallBack" fx:id="okCallBackButton"></Button>
         </HBox>
     </VBox>

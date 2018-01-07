@@ -32,17 +32,14 @@ public class DialogController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        cancelCallBackButton.defaultButtonProperty().bind(cancelCallBackButton.focusedProperty());
+        okCallBackButton.defaultButtonProperty().bind(okCallBackButton.focusedProperty());
+        okCallBackButton.requestFocus();
     }
 
     public void dialogOnKeyPressed(KeyEvent event){
-        Main.log("cacca");
         if(event.getCode() == KeyCode.ESCAPE) {
             cancelCallBackButton.fire();
-            event.consume();
-        }
-        if(event.getCode() == KeyCode.ENTER) {
-            okCallBackButton.fire();
             event.consume();
         }
     }
