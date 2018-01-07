@@ -81,7 +81,6 @@
                     <FXCollections fx:id="infoObsArrayList" fx:factory="observableArrayList">
                         <String fx:value="startWith(O) file search"/>
                         <String fx:value="[inner search]"/>
-                        <String fx:value="--OVERWRITE--"/>
                     </FXCollections>
                 </items>
             </ListView>

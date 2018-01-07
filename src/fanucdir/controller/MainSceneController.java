@@ -171,9 +171,12 @@ public class MainSceneController implements Initializable{
         this.programToolsObsList.setAll(program.getTools());
     }
 
+    public boolean getIsArchiveSelected(){
+        return this.programsFolderSelected.equals(CncProgramsManager.ARCHIVE_PATH);
+    }
 
     private void showProgramTextButtons(boolean ohYes){
-        boolean isArchiveSelected = this.programsFolderSelected.equals(CncProgramsManager.ARCHIVE_PATH);
+        boolean isArchiveSelected = getIsArchiveSelected();
         if(ohYes){
             deleteButton.setVisible(true);
             copyButton.setVisible(isArchiveSelected);
@@ -278,6 +281,9 @@ public class MainSceneController implements Initializable{
     }
     public void deleteFileFromManager(CncProgramsManager programManagerWithFile){
         Main.log("delete da file manager");
+        if(programManagerWithFile.isArchiveManager()){
+            programManagerWithFile.copyProgramToTrash(this.programSelected);
+        }
         programManagerWithFile.deleteProgram(this.programSelected.getFileName());
     }
     public void copyToProgramsManager(CncProgramsManager programsManager) throws Exception{
@@ -304,11 +310,18 @@ public class MainSceneController implements Initializable{
         }
     }
 
-    public void deleteProgramSelected(){
-        this.showedCncProgramsManager.deleteProgram(this.programSelected);
+    private void reloadAfterDeleteFile(){
         this.reloadFolder();
         showProgramTextButtons(false);
         setNextFreeFileNameInfo();
+    }
+
+    public void deleteProgramSelected(){
+        if(this.getIsArchiveSelected()){
+            this.showedCncProgramsManager.copyProgramToTrash(this.programSelected);
+        }
+        this.showedCncProgramsManager.deleteProgram(this.programSelected);
+        reloadAfterDeleteFile();
     }
 
     public void searchProgramsForName(){

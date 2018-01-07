@@ -15,6 +15,6 @@
 ##Manca
 
 - creare calc sheet o xml
-- remove dot from search title and stuff
+- invio ed esc events on popups
 - remove move to removed folder and dont remove really
 - history dei file usati, archiviati, copiati, rimossi.

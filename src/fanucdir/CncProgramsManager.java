@@ -7,6 +7,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -22,6 +23,7 @@ public class CncProgramsManager {
     private ArrayList<CncProgram> cncProgramList = new ArrayList<>();
     private String folderPath;
     public final static String ARCHIVE_PATH = Paths.get(System.getProperty("user.dir"),"cnc_programs").toString();
+    public final static String REMOVED_PROGRAMS_PATH = Paths.get(System.getProperty("user.dir"),"cnc_programs","removed_programs").toString();
     private final static int MAX_PROGRAMS_NUMBER = 7999;
     private final static int MIN_PROGRAMS_NUMBER = 101;
     private final static int MIN_FIXED_PROGRAMS_NUMBER = 8000;
@@ -105,6 +107,10 @@ public class CncProgramsManager {
         this.folderPath = CncProgramsManager.ARCHIVE_PATH;
         this.setAllPrograms();
         return this.folderPath;
+    }
+
+    public boolean isArchiveManager(){
+        return this.folderPath.equals(CncProgramsManager.ARCHIVE_PATH);
     }
 
     public void reloadCncProgramList(){
@@ -247,12 +253,51 @@ public class CncProgramsManager {
         return convertFromFileNumberToFileName(getNextFreeFixedProgramNumber());
     }
 
+    private void checkIfTrashExistOrCreateIt(){
+        File dir = new File(CncProgramsManager.REMOVED_PROGRAMS_PATH);
+        if(!dir.exists()){
+            dir.mkdir();
+        }
+    }
+
+    private Path getTrashFilePath(String fileName){
+        return getTrashFilePathRecursion(fileName, -1);
+    }
+
+    private Path getTrashFilePathRecursion(String fileName, int copyNumber){
+        String newFileName = fileName;
+        if(copyNumber != -1){
+            newFileName = fileName + "_" + copyNumber;
+        }
+
+        Path pathToCopy = Paths.get( CncProgramsManager.REMOVED_PROGRAMS_PATH, newFileName);
+        if(pathToCopy.toFile().exists()){
+            return getTrashFilePathRecursion(fileName, ++copyNumber);
+        }else{
+            return pathToCopy;
+        }
+    }
+
+    public void copyProgramToTrash(CncProgram programSelected){
+        checkIfTrashExistOrCreateIt();
+        Path fileToCopy = Paths.get( CncProgramsManager.ARCHIVE_PATH, programSelected.getFileName());
+        Path pathToCopy = getTrashFilePath( programSelected.getFileName());
+
+        try{
+            Files.copy(fileToCopy, pathToCopy);
+        }catch (Exception e){
+            Main.log("nano");
+        }
+    }
+
     public void deleteProgram(CncProgram programSelected){
         this.removeProgramFromList(programSelected);
         programSelected.getProgramFile().delete();
     }
 
     public void deleteProgram(String fileName){
+
+        Main.log("sdada");
         ArrayList<CncProgram> programs = filterPrograms(fileName);
         if(programs.size() == 1){
             CncProgram program = programs.get(0);
@@ -261,9 +306,6 @@ public class CncProgramsManager {
         }
     }
 
-    public void deletePrograms(ArrayList<CncProgram> programs){
-        programs.forEach(program -> deleteProgram(program));
-    }
 
     public String copyProgram(CncProgram program, boolean addDate) throws Exception{
         String newFileName;
@@ -294,13 +336,6 @@ public class CncProgramsManager {
             LocalDateTime date = LocalDateTime.now();
             String formattedDate = date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL));
             content = content.replaceFirst("[)]", ")\n(" + formattedDate + ")");
-        }
-
-        if(program.getReplaceIfExist()){
-            ArrayList<CncProgram> oldPrograms = this.findByTitle(program.getProgramTitle());
-            this.deletePrograms(oldPrograms);
-
-            content = content.replaceAll(Pattern.quote(CncProgram.OVERWRITE_TAG), "");
         }
 
         Files.write(newFile.toPath(), content.getBytes(charset));

@@ -19,15 +19,12 @@ public class CncProgram {
     private StringProperty programTitle;
     private File programFile;
     private String programContent;
-    private boolean replaceIfExist;
-    public final static String OVERWRITE_TAG = "(--OVERWRITE--)";
 
     public CncProgram(File programFile, String fileName, String programContent){
         this.fileName = new SimpleStringProperty(fileName);
         this.programTitle = new SimpleStringProperty(this.createProgramTitle(programContent));
         this.programFile = programFile;
         this.programContent = programContent;
-        this.replaceIfExist = programContent.contains(CncProgram.OVERWRITE_TAG);
     }
 
     public CncProgram(File programFile){
@@ -38,7 +35,6 @@ public class CncProgram {
             this.programTitle = new SimpleStringProperty(this.createProgramTitle(content));
             this.programFile = programFile;
             this.programContent = content;
-            this.replaceIfExist = this.programContent.contains(CncProgram.OVERWRITE_TAG);
 
         }catch (IOException ex){
             System.out.print("cazzo");
@@ -55,7 +51,6 @@ public class CncProgram {
             this.programTitle = new SimpleStringProperty(this.createProgramTitle(content));
             this.programFile = programFile;
             this.programContent = content;
-            this.replaceIfExist = this.programContent.contains(CncProgram.OVERWRITE_TAG);
 
         }catch (Exception ex){
             System.out.print("cazzo");
@@ -77,9 +72,6 @@ public class CncProgram {
         return this.programFile;
     }
 
-    public boolean getReplaceIfExist(){
-        return this.replaceIfExist;
-    }
 
     private String createProgramTitle(String programContent){
         String rawTitle = "";

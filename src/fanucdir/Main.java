@@ -40,10 +40,8 @@ public class Main extends Application {
 
     }
 
-
     public void deleteFile(){
         this.mainController.deleteProgramSelected();
-//        this.cancelDialogStage.hide();
     }
 
     public void copyToProgramsManager(CncProgramsManager programManager) throws Exception{
