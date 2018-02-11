@@ -95,6 +95,9 @@ public class MainSceneController implements Initializable{
     @FXML
     private ObservableList<String> infoObsArrayList;
 
+    @FXML
+    private Button deleteAllProgramsButton;
+
     @Override
     public void initialize(URL location, ResourceBundle resources){
         System.out.print("in inzialize");
@@ -124,6 +127,7 @@ public class MainSceneController implements Initializable{
         copyButton.setVisible(false);
         archiveButton.setVisible(false);
         archiveAllButton.setVisible(false);
+        deleteAllProgramsButton.setVisible(false);
         programsFolderSelected = showedCncProgramsManager.setFolderPath();
         currentFolder.setText(programsFolderSelected);
         showPrograms();
@@ -214,6 +218,7 @@ public class MainSceneController implements Initializable{
         programsQtText.setText("" + cncProgramObservableList.size());
 
         showProgramTextButtons(false);
+        deleteAllProgramsButton.setVisible(!getIsArchiveSelected());
         setNextFreeFileNameInfo();
     }
 
@@ -322,6 +327,17 @@ public class MainSceneController implements Initializable{
         }
         this.showedCncProgramsManager.deleteProgram(this.programSelected);
         reloadAfterDeleteFile();
+    }
+
+    public void askIfDeleteAllPrograms() throws Exception{
+        Main.log("removeallllllll");
+        app.showRemoveAllDialog();
+    }
+
+    public void deleteAllPrograms(){
+        showedCncProgramsManager.deleteAllPrograms();
+        reloadAfterDeleteFile();
+
     }
 
     public void searchProgramsForName(){

@@ -53,6 +53,35 @@ public class Main extends Application {
         this.mainController.deleteFileFromManager(programManagerWithFile);
     }
 
+    private void deleteAllPrograms(){
+        this.mainController.deleteAllPrograms();
+    }
+
+    public void showRemoveAllDialog() throws Exception{
+//        this.cancelDialogStage.show();
+
+        if(dialogAlreadyUsed){
+            this.confirmDialog.hide();
+        }else{
+            dialogAlreadyUsed = true;
+        }
+        Main app = this;
+        String question = "Sei sicuro di voler cancellare tutti i programmi?";
+        this.confirmDialog = new Dialog(this.primaryStage, question){
+
+            @Override
+            public void okCallBack() {
+                app.deleteAllPrograms();
+                this.hide();
+            }
+        };
+
+        this.confirmDialog.setCancelCallBackButtonText("Annulla");
+        this.confirmDialog.setOkCallBackButtonText("Sì, cancella!");
+
+        this.confirmDialog.show();
+    }
+
     public void showRemoveDialog() throws Exception{
 //        this.cancelDialogStage.show();
 

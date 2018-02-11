@@ -295,6 +295,11 @@ public class CncProgramsManager {
         programSelected.getProgramFile().delete();
     }
 
+    public void deleteAllPrograms(){
+        cncProgramList.forEach(program -> program.getProgramFile().delete());
+        this.cncProgramList.removeAll(this.cncProgramList);
+    }
+
     public void deleteProgram(String fileName){
 
         Main.log("sdada");
